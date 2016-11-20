@@ -1,5 +1,5 @@
-#ifndef SERVER_H
-#define SERVER_H
+#ifndef RPCSERVER_H
+#define RPCSERVER_H
 
 #include "abstractstubserver.h"
 #include <jsonrpccpp/server/connectors/httpserver.h>

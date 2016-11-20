@@ -1,4 +1,4 @@
-#include "server.h"
+#include "RpcServer.h"
 
 RpcServer::RpcServer(AbstractServerConnector &connector) :
     AbstractStubServer(connector)
