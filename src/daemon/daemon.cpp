@@ -1,14 +1,96 @@
-#include "server.h"
+#include <daemon/RpcServer.h>
+#include <drivers/DriverFactory.h>
+#include <drivers/hyperv/HypervDriverFactory.h>
 #include <jsonrpccpp/server/connectors/httpserver.h>
 #include <iostream>
 #include <memory>
+#include <fcntl.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <syslog.h>
+#include <string.h>
+#include <errno.h>
+#include <signal.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+
+#define RUNNING_DIR "/tmp"
+#define LOCK_FILE "intervirtd.lock"
+#define LOG_FILE "intervirtd.log"
 
 using namespace jsonrpc;
+using namespace Drivers;
+
+void signal_handler(int sig)
+{
+    switch(sig) {
+        case SIGHUP:
+            break;
+        case SIGTERM:
+            exit(EXIT_SUCCESS);
+            break;
+        }
+}
+
+void daemonize()
+{
+    pid_t pid, sid;
+
+    if (getppid() == 1)
+        return;
+
+    pid = fork();
+    if (pid < 0)
+        exit(EXIT_FAILURE);
+
+    if (pid > 0)
+        exit(EXIT_SUCCESS);
+
+    umask(0);
+
+    sid = setsid();
+    if (sid < 0)
+        exit(EXIT_FAILURE);
+
+    if ((chdir(RUNNING_DIR)) < 0) {
+        exit(EXIT_FAILURE);
+    }
+
+    close(STDIN_FILENO);
+    close(STDOUT_FILENO);
+    close(STDERR_FILENO);
+
+    auto lfp = open(LOCK_FILE, O_RDWR | O_CREAT, 0640);
+    if (lfp < 0)
+        exit(EXIT_FAILURE);
+
+    if (lockf(lfp, F_TLOCK, 0) < 0)
+        exit(EXIT_SUCCESS);
+
+    char str[10];
+    sprintf(str, "%d\n", getpid());
+    write(lfp, str, strlen(str));
+
+    signal(SIGCHLD, SIG_IGN);
+    signal(SIGTSTP, SIG_IGN);
+    signal(SIGTTOU, SIG_IGN);
+    signal(SIGTTIN, SIG_IGN);
+    signal(SIGHUP, signal_handler);
+    signal(SIGTERM, signal_handler);
+}
 
 int main()
 {
-    std::cout << "test" << std::endl;
+    daemonize();
+    std::cout << "Registering drivers..." << std::endl;
 
+    auto factory = std::make_shared<DriverFactory>();
+    factory->registerDriver("hyperv", std::make_shared<HypervDriverFactory>());
     auto server = std::make_shared<HttpServer>(8383);
-    
+    server->StartListening();
+    while (1)
+    {
+        sleep(1);
+    }
 }
