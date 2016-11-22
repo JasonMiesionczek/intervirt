@@ -1,6 +1,7 @@
 #include <daemon/RpcServer.h>
 #include <drivers/DriverFactory.h>
 #include <drivers/hyperv/HypervDriverFactory.h>
+#include <objects/HypervisorConnection.h>
 #include <jsonrpccpp/server/connectors/httpserver.h>
 #include <iostream>
 #include <memory>
@@ -82,15 +83,29 @@ void daemonize()
 
 int main()
 {
-    daemonize();
+    //daemonize();
     std::cout << "Registering drivers..." << std::endl;
+
+    v1::Win32OperatingSystem* os = new v1::Win32OperatingSystem();
+    auto uri = os->getResourceUri();
+    std::cout << uri << std::endl;
+    delete os;
 
     auto factory = std::make_shared<DriverFactory>();
     factory->registerDriver("hyperv", std::make_shared<HypervDriverFactory>());
-    auto server = std::make_shared<HttpServer>(8383);
-    server->StartListening();
-    while (1)
-    {
-        sleep(1);
-    }
+
+    auto connection = std::make_shared<Connection::HypervisorConnection>("hyperv://administrator@10.0.22.97", "Datto1000!");
+    std::cout << connection->getProtocol() << std::endl;
+    std::cout << connection->getHost() << std::endl;
+    std::cout << connection->getUsername() << std::endl;
+
+    auto hypervisorFactory = factory->create(connection->getProtocol());
+    auto driver = hypervisorFactory->connect(connection);
+
+    // auto server = std::make_shared<HttpServer>(8383);
+    // server->StartListening();
+    // while (1)
+    // {
+    //     sleep(1);
+    // }
 }
