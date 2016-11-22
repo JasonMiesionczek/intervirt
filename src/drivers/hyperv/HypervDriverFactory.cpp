@@ -5,7 +5,11 @@ HypervDriverFactory::HypervDriverFactory()
 
 }
 
-std::shared_ptr<IDriver> HypervDriverFactory::connect(std::string host, std::string username, std::string password)
+IDriverPtr HypervDriverFactory::connect(ConnectionPtr conn)
 {
-    return std::make_shared<HypervDriverLegacy>();
+    auto common = new HypervCommon(conn);
+    auto result = common->enumerate<v1::Win32OperatingSystem>();
+    auto data = result[0].getRawData();
+    
+    return std::make_shared<HypervDriverLegacy>(conn);
 }

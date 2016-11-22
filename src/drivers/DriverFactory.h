@@ -13,6 +13,8 @@ namespace Drivers {
   public:
     DriverFactory();
     bool registerDriver(std::string name, std::shared_ptr<IDriverFactory> factory);
+    std::shared_ptr<IDriverFactory> create(std::string driver);
+
   private:
     std::map<std::string, std::shared_ptr<IDriverFactory>> factoryMap;
   };

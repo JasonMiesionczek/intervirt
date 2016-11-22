@@ -4,14 +4,18 @@
 #include <drivers/IDriverFactory.h>
 #include <drivers/IDriver.h>
 #include <drivers/hyperv/HypervDriverLegacy.h>
+#include <objects/HypervisorConnection.h>
+#include <drivers/hyperv/HypervCommon.h>
 #include <string>
 #include <memory>
+
+using namespace Connection;
 
 class HypervDriverFactory : public IDriverFactory
 {
 public:
   HypervDriverFactory();
-  std::shared_ptr<IDriver> connect(std::string host, std::string username, std::string password);
+  IDriverPtr connect(ConnectionPtr conn);
 };
 
 #endif /* HYPERVDRIVERFACTORY_H */
