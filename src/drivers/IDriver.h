@@ -1,12 +1,19 @@
 #ifndef IDRIVER_H
 #define IDRIVER_H
 
-#include <memory>
+#include <common/util.h>
+#include <objects/HypervisorConnection.h>
 
-class IDriver
-{
-};
-
-using IDriverPtr = std::shared_ptr<IDriver>;
+namespace Drivers {
+    class IDriver
+    {
+    public:
+      IDriver(Connection::ConnectionPtr conn);
+    private:
+      Connection::ConnectionPtr conn_;
+    };
+    
+    using IDriverPtr = SHRDPTR(IDriver);
+}
 
 #endif /* IDRIVER_H */
