@@ -1,15 +1,15 @@
-#ifndef WIN32OPERATINGSYSTEM_H
-#define WIN32OPERATINGSYSTEM_H
+#ifndef COMMON_WIN32_OPERATINGSYSTEM_H
+#define COMMON_WIN32_OPERATINGSYSTEM_H
 
-#include <drivers/hyperv/wmi/IWmiClass.h>
+#include <common/util.h>
+#include <drivers/hyperv/wmi/AbstractWmiObject.h>
 
-namespace v1
-{
-
-#define WIN32_OPERATINGSYSTEM_RESOURCE_URI \
-    "http://schemas.microsoft.com/wbem/wsman/1/wmi/root/cimv2/Win32_OperatingSystem"
-
-struct _Win32_OperatingSystem_Data {
+namespace Drivers {
+namespace Hyperv {
+namespace Wmi {
+namespace Classes {
+namespace Common {
+typedef struct _Win32_OperatingSystem_Data {
     XML_TYPE_STR BootDevice;
     XML_TYPE_STR BuildNumber;
     XML_TYPE_STR BuildType;
@@ -41,7 +41,7 @@ struct _Win32_OperatingSystem_Data {
     XML_TYPE_STR Manufacturer;
     XML_TYPE_UINT32 MaxNumberOfProcesses;
     XML_TYPE_UINT64 MaxProcessMemorySize;
-    XML_TYPE_DYN_ARRAY MUILanguages;
+    //XML_TYPE_DYN_ARRAY MUILanguages;
     XML_TYPE_STR Name;
     XML_TYPE_UINT32 NumberOfLicensedUsers;
     XML_TYPE_UINT32 NumberOfProcesses;
@@ -73,27 +73,39 @@ struct _Win32_OperatingSystem_Data {
     XML_TYPE_UINT64 TotalVisibleMemorySize;
     XML_TYPE_STR Version;
     XML_TYPE_STR WindowsDirectory;
-};
-typedef struct _Win32_OperatingSystem_Data Win32_OperatingSystem_Data;
-typedef struct _Win32_OperatingSystem Win32_OperatingSystem;
-struct _Win32_OperatingSystem {
-    XmlSerializerInfo *serializerInfo;
-    Win32_OperatingSystem_Data *data;
-    Win32_OperatingSystem *next;
-};
+} Win32_OperatingSystem_Data;
 
 SER_DECLARE_TYPE(Win32_OperatingSystem_Data);
+//typedef struct _Win32_OperatingSystem_Data Win32_OperatingSystem_Data;
+//typedef struct _Win32_OperatingSystem Win32_OperatingSystem;
 
-class Win32OperatingSystem : public IWmiClass
+typedef struct _Win32_OperatingSystem {
+    XmlSerializerInfo *serializerInfo;
+    Win32_OperatingSystem_Data *data;
+} Win32_OperatingSystem;
+
+#define WIN32_OPERATINGSYSTEM_RESOURCE_URI \
+    "http://schemas.microsoft.com/wbem/wsman/1/wmi/root/cimv2/Win32_OperatingSystem"
+
+#define WIN32_OPERATINGSYSTEM_CLASSNAME \
+    "Win32_OperatingSystem"
+
+#define WIN32_OPERATINGSYSTEM_WQL_SELECT \
+    "select * from Win32_OperatingSystem "
+
+#define ROOT_CIMV2 \
+    "http://schemas.microsoft.com/wbem/wsman/1/wmi/root/cimv2/*"
+
+class Win32OperatingSystem : public AbstractWmiObject
 {
 public:
   Win32OperatingSystem();
-  void setData(Win32_OperatingSystem_Data *newData) { this->data = newData; }
-  Win32_OperatingSystem_Data* getData() { return this->data; }
-
-private:
-  Win32_OperatingSystem_Data *data;
 };
 }
+}
+}
+}
+}
 
-#endif /* WIN32OPERATINGSYSTEM_H */
+
+#endif /* COMMON_WIN32_OPERATINGSYSTEM_H */

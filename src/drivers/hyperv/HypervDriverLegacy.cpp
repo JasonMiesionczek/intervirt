@@ -1,7 +1,15 @@
-#include <drivers/hyperv/HypervDriverLegacy.h>
+#include "HypervDriverLegacy.h"
 
-HypervDriverLegacy::HypervDriverLegacy(Connection::ConnectionPtr conn) 
-    : HypervCommon(conn)
+namespace Drivers {
+namespace Hyperv {
+
+HypervDriverLegacy::HypervDriverLegacy(Connection::ConnectionPtr conn, SHRDPTR(Wmi::WmiHelper) helper) :
+    IDriver(conn), helper_(helper) {}
+
+std::string HypervDriverLegacy::hostGetVersion()
 {
-    auto result = this->enumerate<v1::Win32OperatingSystem>();
+    auto os = this->helper_->Enumerate<Wmi::Classes::Common::Win32_OperatingSystem, Wmi::Classes::Common::Win32OperatingSystem>();
+    return os[0]->data->Version;
+}
+}
 }

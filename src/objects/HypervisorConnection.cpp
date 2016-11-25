@@ -1,36 +1,33 @@
 #include <objects/HypervisorConnection.h>
 
-namespace Connection
-{
+namespace Connection {
+    HypervisorConnection::HypervisorConnection(std::string uri, std::string password)
+        : password_(password)
+    {
+        auto uriParsed = xmlParseURI(uri.c_str());
+        this->protocol_ = uriParsed->scheme;
+        this->username_ = uriParsed->user;
+        this->host_ = uriParsed->server;
+        this->port = uriParsed->port;
+    }
 
-HypervisorConnection::HypervisorConnection(std::string uri, std::string password)
-    : password(password)
-{
-    auto uriParsed = xmlParseURI(uri.c_str());
-    this->protocol = uriParsed->scheme;
-    this->username = uriParsed->user;
-    this->host = uriParsed->server;
-    this->port = uriParsed->port;
-}
+    std::string HypervisorConnection::getProtocol()
+    {
+        return this->protocol_;
+    }
 
-std::string HypervisorConnection::getProtocol()
-{
-    return this->protocol;
-}
+    std::string HypervisorConnection::getUsername()
+    {
+        return this->username_;
+    }
 
-std::string HypervisorConnection::getUsername()
-{
-    return this->username;
-}
+    std::string HypervisorConnection::getPassword()
+    {
+        return this->password_;
+    }
 
-std::string HypervisorConnection::getPassword()
-{
-    return this->password;
-}
-
-std::string HypervisorConnection::getHost()
-{
-    return this->host;
-}
-
+    std::string HypervisorConnection::getHost()
+    {
+        return this->host_;
+    }
 } // namespace Connection

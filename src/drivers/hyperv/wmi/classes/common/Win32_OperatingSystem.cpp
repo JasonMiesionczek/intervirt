@@ -1,23 +1,10 @@
-#include "Win32OperatingSystem.h"
+#include "Win32_OperatingSystem.h"
 
-namespace v1
-{
-
-/*
-        this->resourceUri_ = WIN32_OPERATINGSYSTEM_RESOURCE_URI;
-        this->className_ = "Win32_OperatingSystem";
-        this->selectQuery_ = "select * from Win32_OperatingSystem ";
-
-*/
-
-Win32OperatingSystem::Win32OperatingSystem()
-    :IWmiClass(
-        "http://schemas.microsoft.com/wbem/wsman/1/wmi/root/cimv2/*",
-        WIN32_OPERATINGSYSTEM_RESOURCE_URI,
-        "Win32_OperatingSystem",
-        "select * from Win32_OperatingSystem ",
-        Win32_OperatingSystem_Data_TypeInfo
-    ) {}
+namespace Drivers {
+namespace Hyperv {
+namespace Wmi {
+namespace Classes {
+namespace Common {
 
 SER_START_ITEMS(Win32_OperatingSystem_Data)
     SER_NS_STR(WIN32_OPERATINGSYSTEM_RESOURCE_URI, "BootDevice", 1),
@@ -84,4 +71,18 @@ SER_START_ITEMS(Win32_OperatingSystem_Data)
     SER_NS_STR(WIN32_OPERATINGSYSTEM_RESOURCE_URI, "Version", 1),
     SER_NS_STR(WIN32_OPERATINGSYSTEM_RESOURCE_URI, "WindowsDirectory", 1),
 SER_END_ITEMS(Win32_OperatingSystem_Data);
+
+Win32OperatingSystem::Win32OperatingSystem()
+        :AbstractWmiObject(
+            WIN32_OPERATINGSYSTEM_WQL_SELECT,
+            WIN32_OPERATINGSYSTEM_CLASSNAME,
+            ROOT_CIMV2,
+            WIN32_OPERATINGSYSTEM_RESOURCE_URI,
+            Win32_OperatingSystem_Data_TypeInfo
+        ) {}
+
+}
+}
+}
+}
 }
