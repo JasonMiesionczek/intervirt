@@ -6,6 +6,8 @@
 #include <iostream>
 #include <vector>
 #include <map>
+#include <string.h>
+#include <iomanip>
 
 #define MKSHRD(T, PARAMS...) \
     std::make_shared<T>(PARAMS)

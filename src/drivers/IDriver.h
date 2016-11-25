@@ -9,6 +9,8 @@ namespace Drivers {
     {
     public:
       IDriver(Connection::ConnectionPtr conn);
+      virtual std::string hostGetVersion() = 0;
+
     private:
       Connection::ConnectionPtr conn_;
     };

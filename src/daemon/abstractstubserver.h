@@ -12,15 +12,20 @@ class AbstractStubServer : public jsonrpc::AbstractServer<AbstractStubServer>
     public:
         AbstractStubServer(jsonrpc::AbstractServerConnector &conn, jsonrpc::serverVersion_t type = jsonrpc::JSONRPC_SERVER_V2) : jsonrpc::AbstractServer<AbstractStubServer>(conn, type)
         {
-            this->bindAndAddMethod(jsonrpc::Procedure("getVersion", jsonrpc::PARAMS_BY_NAME, jsonrpc::JSON_STRING,  NULL), &AbstractStubServer::getVersionI);
+            this->bindAndAddMethod(jsonrpc::Procedure("connect", jsonrpc::PARAMS_BY_NAME, jsonrpc::JSON_STRING, "password",jsonrpc::JSON_STRING,"uri",jsonrpc::JSON_STRING, NULL), &AbstractStubServer::connectI);
+            this->bindAndAddMethod(jsonrpc::Procedure("hostGetVersion", jsonrpc::PARAMS_BY_NAME, jsonrpc::JSON_STRING, "connID",jsonrpc::JSON_STRING, NULL), &AbstractStubServer::hostGetVersionI);
         }
 
-        inline virtual void getVersionI(const Json::Value &request, Json::Value &response)
+        inline virtual void connectI(const Json::Value &request, Json::Value &response)
         {
-            (void)request;
-            response = this->getVersion();
+            response = this->connect(request["password"].asString(), request["uri"].asString());
         }
-        virtual std::string getVersion() = 0;
+        inline virtual void hostGetVersionI(const Json::Value &request, Json::Value &response)
+        {
+            response = this->hostGetVersion(request["connID"].asString());
+        }
+        virtual std::string connect(const std::string& password, const std::string& uri) = 0;
+        virtual std::string hostGetVersion(const std::string& connID) = 0;
 };
 
 #endif //JSONRPC_CPP_STUB_ABSTRACTSTUBSERVER_H_

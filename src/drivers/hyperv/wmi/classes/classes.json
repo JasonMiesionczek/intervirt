@@ -1,0 +1,25 @@
+{
+    "namespaces": [
+        {
+            "classes": [
+                {
+                    "fields": [], 
+                    "name": "", 
+                    "uri": ""
+                }
+            ], 
+            "ns": "", 
+            "name": "common"
+        }, 
+        {
+            "classes": [], 
+            "ns": "", 
+            "name": "v1"
+        }, 
+        {
+            "classes": [], 
+            "ns": "", 
+            "name": "v2"
+        }
+    ]
+}

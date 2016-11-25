@@ -1,12 +1,37 @@
 #include "RpcServer.h"
 
-RpcServer::RpcServer(AbstractServerConnector &connector) :
-    AbstractStubServer(connector)
+RpcServer::RpcServer(AbstractServerConnector &connector, SHRDPTR(Drivers::DriverManager) manager) :
+    AbstractStubServer(connector), manager_(manager)
     {
 
     }
 
-std::string RpcServer::getVersion()
+std::string genConnectionID(std::string uri, std::string password)
 {
-    return "0.1.0";
+    unsigned char result[MD5_DIGEST_LENGTH];
+    MD5((unsigned char*)uri.c_str(), uri.size(), result);
+
+    std::ostringstream sout;
+    sout<<std::hex<<std::setfill('0');
+    for(long long c: result)
+    {
+        sout<<std::setw(2)<<(long long)c;
+    }
+    return sout.str();
+}
+
+std::string RpcServer::connect(const std::string &password, const std::string &uri)
+{
+    auto conn = MKSHRD(Connection::HypervisorConnection, uri, password);
+    auto factory = this->manager_->get(conn->getProtocol());
+    auto driver = factory->create(conn);
+    auto id = genConnectionID(uri, password);
+    this->connectionMap_[id] = driver;
+    return id;
+}
+
+std::string RpcServer::hostGetVersion(const std::string& connID)
+{
+    auto driver = this->connectionMap_[connID];
+    return driver->hostGetVersion();
 }

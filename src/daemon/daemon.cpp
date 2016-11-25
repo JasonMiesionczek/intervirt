@@ -4,8 +4,8 @@
 #include <objects/HypervisorConnection.h>
 #include <jsonrpccpp/server/connectors/httpserver.h>
 #include <drivers/hyperv/wmi/WmiHelper.h>
-#include <drivers/hyperv/wmi/classes/common/Win32_OperatingSystem.h>
-//#include <openwsman/cpp/OpenWsmanClient.h>
+//#include <drivers/hyperv/wmi/classes/common/Win32_OperatingSystem.h>
+#include <drivers/hyperv/HypervFactory.h>
 #include <openwsman/wsman-api.h>
 #include <fcntl.h>
 #include <stdio.h>
@@ -83,35 +83,40 @@ void daemonize()
     signal(SIGTERM, signal_handler);
 }
 
-    using namespace Drivers::Hyperv::Wmi;
-    using namespace Drivers::Hyperv::Wmi::Classes::Common;
+using namespace Drivers::Hyperv;
+using namespace Drivers::Hyperv::Wmi;
+using namespace Drivers::Hyperv::Wmi::Classes::Common;
 
+int main()
+{
+    //daemonize();
+    std::cout << "Registering drivers..." << std::endl;
 
-    int main()
-    {
-        //daemonize();
-        std::cout << "Registering drivers..." << std::endl;
+    auto manager = MKSHRD(DriverManager); //std::make_shared<DriverManager>();
+    manager->registerDriver("hyperv", MKSHRD(HypervFactory));
 
-        auto manager = MKSHRD(DriverManager); //std::make_shared<DriverManager>();
-        //factory->registerDriver("hyperv", std::make_shared<HypervDriverFactory>());
+    auto connection = std::make_shared<Connection::HypervisorConnection>("hyperv://administrator@10.0.22.97", "Datto1000!");
+    std::cout << connection->getProtocol() << std::endl;
+    std::cout << connection->getHost() << std::endl;
+    std::cout << connection->getUsername() << std::endl;
+    std::cout << connection->getPassword() << std::endl;
 
-        auto connection = std::make_shared<Connection::HypervisorConnection>("hyperv://administrator@10.0.22.97", "Datto1000!");
-        std::cout << connection->getProtocol() << std::endl;
-        std::cout << connection->getHost() << std::endl;
-        std::cout << connection->getUsername() << std::endl;
-        std::cout << connection->getPassword() << std::endl;
+    auto factory = manager->get(connection->getProtocol());
+    auto driver = factory->create(connection);
+    auto helper = MKSHRD(WmiHelper, connection);
 
-        auto helper = MKSHRD(WmiHelper, connection);
+    //auto objects = helper->Enumerate<Win32_OperatingSystem, Win32OperatingSystem>();
 
-        auto objects = helper->Enumerate<Win32_OperatingSystem, Win32OperatingSystem>();
+    //std::cout << objects[0]->data->Version << std::endl;
+    HttpServer httpServer(8383);
+    RpcServer rpcServer(httpServer, manager);
+    rpcServer.StartListening();
+    getchar();
+    rpcServer.StopListening();
 
-        
-
-        std::cout << objects[0]->data->Version << std::endl;
-        // auto server = std::make_shared<HttpServer>(8383);
-        // server->StartListening();
-        // while (1)
-        // {
-        //     sleep(1);
-        // }
+    // server->StartListening();
+    // while (1)
+    // {
+    //     sleep(1);
+    // }
 }
