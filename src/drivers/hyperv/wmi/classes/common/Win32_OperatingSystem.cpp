@@ -7,6 +7,7 @@ namespace Wmi {
 namespace Classes {
 namespace Common {
 
+
 SER_START_ITEMS(Win32_OperatingSystem_Data)
     SER_NS_STR(WIN32_OPERATINGSYSTEM_RESOURCE_URI, "BootDevice", 1),
     SER_NS_STR(WIN32_OPERATINGSYSTEM_RESOURCE_URI, "BuildNumber", 1),

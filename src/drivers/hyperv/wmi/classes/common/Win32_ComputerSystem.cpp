@@ -7,6 +7,7 @@ namespace Wmi {
 namespace Classes {
 namespace Common {
 
+
 SER_START_ITEMS(Win32_ComputerSystem_Data)
     SER_NS_UINT16(WIN32_COMPUTERSYSTEM_RESOURCE_URI, "AdminPasswordStatus", 1),
     SER_NS_BOOL(WIN32_COMPUTERSYSTEM_RESOURCE_URI, "AutomaticManagedPagefile", 1),

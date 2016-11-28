@@ -7,6 +7,7 @@ namespace Wmi {
 namespace Classes {
 namespace V1 {
 
+
 SER_START_ITEMS(Msvm_SwitchPort_Data)
     SER_NS_STR(MSVM_SWITCHPORT_RESOURCE_URI, "Caption", 1),
     SER_NS_STR(MSVM_SWITCHPORT_RESOURCE_URI, "ElementName", 1),

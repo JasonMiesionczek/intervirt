@@ -7,6 +7,7 @@ namespace Wmi {
 namespace Classes {
 namespace V1 {
 
+
 SER_START_ITEMS(Msvm_VirtualHardDiskSettingData_Data)
     SER_NS_STR(MSVM_VIRTUALHARDDISKSETTINGDATA_RESOURCE_URI, "InstanceID", 1),
     SER_NS_STR(MSVM_VIRTUALHARDDISKSETTINGDATA_RESOURCE_URI, "Caption", 1),

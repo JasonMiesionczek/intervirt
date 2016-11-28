@@ -54,6 +54,7 @@ namespace Wmi {
 namespace Classes {
 namespace <Ns> {
 
+
 SER_START_ITEMS(<cls>_Data)
 <fields>
 SER_END_ITEMS(<cls>_Data);

@@ -7,6 +7,7 @@ namespace Wmi {
 namespace Classes {
 namespace Common {
 
+
 SER_START_ITEMS(Win32_PerfRawData_HvStats_HyperVHypervisorVirtualProcessor_Data)
     SER_NS_UINT64(WIN32_PERFRAWDATA_HVSTATS_HYPERVHYPERVISORVIRTUALPROCESSOR_RESOURCE_URI, "AddressDomainFlushesPersec", 1),
     SER_NS_UINT64(WIN32_PERFRAWDATA_HVSTATS_HYPERVHYPERVISORVIRTUALPROCESSOR_RESOURCE_URI, "AddressSpaceEvictionsPersec", 1),

@@ -7,6 +7,7 @@ namespace Wmi {
 namespace Classes {
 namespace V2 {
 
+
 SER_START_ITEMS(Msvm_VirtualSystemSettingData_Data)
     SER_NS_STR(MSVM_VIRTUALSYSTEMSETTINGDATA_RESOURCE_URI, "InstanceID", 1),
     SER_NS_STR(MSVM_VIRTUALSYSTEMSETTINGDATA_RESOURCE_URI, "Caption", 1),

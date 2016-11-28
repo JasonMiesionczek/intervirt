@@ -7,6 +7,7 @@ namespace Wmi {
 namespace Classes {
 namespace Common {
 
+
 SER_START_ITEMS(Win32_Processor_Data)
     SER_NS_UINT16(WIN32_PROCESSOR_RESOURCE_URI, "AddressWidth", 1),
     SER_NS_UINT16(WIN32_PROCESSOR_RESOURCE_URI, "Architecture", 1),

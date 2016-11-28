@@ -7,6 +7,7 @@ namespace Wmi {
 namespace Classes {
 namespace Common {
 
+
 SER_START_ITEMS(CIM_DataFile_Data)
     SER_NS_UINT32(CIM_DATAFILE_RESOURCE_URI, "AccessMask", 1),
     SER_NS_BOOL(CIM_DATAFILE_RESOURCE_URI, "Archive", 1),

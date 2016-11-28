@@ -7,6 +7,7 @@ namespace Wmi {
 namespace Classes {
 namespace Common {
 
+
 SER_START_ITEMS(Win32_ComputerSystemProduct_Data)
     SER_NS_STR(WIN32_COMPUTERSYSTEMPRODUCT_RESOURCE_URI, "Caption", 1),
     SER_NS_STR(WIN32_COMPUTERSYSTEMPRODUCT_RESOURCE_URI, "Description", 1),

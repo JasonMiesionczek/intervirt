@@ -7,6 +7,7 @@ namespace Wmi {
 namespace Classes {
 namespace V1 {
 
+
 SER_START_ITEMS(Msvm_VirtualSwitch_Data)
     SER_NS_STR(MSVM_VIRTUALSWITCH_RESOURCE_URI, "Caption", 1),
     SER_NS_STR(MSVM_VIRTUALSWITCH_RESOURCE_URI, "Description", 1),
