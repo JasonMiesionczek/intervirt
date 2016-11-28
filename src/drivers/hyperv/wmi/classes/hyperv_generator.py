@@ -383,6 +383,7 @@ def main():
         for ns in d['namespaces']:
             classes_to_add = []
             for cls_name in names:
+                cname = cls_name.replace('_2012', '')
                 if classes_by_name[cls_name].ns != ns['name']:
                     #print "         %s is not in namespace %s" % (cls_name, ns['name'])
                     continue
@@ -391,14 +392,15 @@ def main():
                 for cls in ns['classes']:
                     if classes_by_name[cls_name].name == cls['name']:
                         # check fields
-                        cls['uri'] = uri_prefix[ns['name']] + cls_name 
+                        
+                        cls['uri'] = uri_prefix[ns['name']] + cname 
                         print "         found existing class"
                         found = True
                         pass
                 if not found:
                     # add new class
                     print "         found new class"
-                    uri = uri_prefix[ns['name']] + cls_name
+                    uri = uri_prefix[ns['name']] + cname
                     newcls = {'name':cls_name, 'uri':uri, 'fields':[]}
                     for p in classes_by_name[cls_name].properties:
                         fieldtype = p.type

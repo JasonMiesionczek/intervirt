@@ -3223,7 +3223,7 @@
                         }
                     ],
                     "name":"Msvm_ComputerSystem_2012",
-                    "uri":"http://schemas.microsoft.com/wbem/wsman/1/wmi/root/virtualization/v2/Msvm_ComputerSystem_2012"
+                    "uri":"http://schemas.microsoft.com/wbem/wsman/1/wmi/root/virtualization/v2/Msvm_ComputerSystem"
                 },
                 {
                     "fields":[
@@ -3393,7 +3393,7 @@
                         }
                     ],
                     "name":"Msvm_ConcreteJob_2012",
-                    "uri":"http://schemas.microsoft.com/wbem/wsman/1/wmi/root/virtualization/v2/Msvm_ConcreteJob_2012"
+                    "uri":"http://schemas.microsoft.com/wbem/wsman/1/wmi/root/virtualization/v2/Msvm_ConcreteJob"
                 },
                 {
                     "fields":[
@@ -3571,7 +3571,7 @@
                         }
                     ],
                     "name":"Msvm_Keyboard_2012",
-                    "uri":"http://schemas.microsoft.com/wbem/wsman/1/wmi/root/virtualization/v2/Msvm_Keyboard_2012"
+                    "uri":"http://schemas.microsoft.com/wbem/wsman/1/wmi/root/virtualization/v2/Msvm_Keyboard"
                 },
                 {
                     "fields":[
@@ -3689,7 +3689,7 @@
                         }
                     ],
                     "name":"Msvm_MemorySettingData_2012",
-                    "uri":"http://schemas.microsoft.com/wbem/wsman/1/wmi/root/virtualization/v2/Msvm_MemorySettingData_2012"
+                    "uri":"http://schemas.microsoft.com/wbem/wsman/1/wmi/root/virtualization/v2/Msvm_MemorySettingData"
                 },
                 {
                     "fields":[
@@ -3803,7 +3803,7 @@
                         }
                     ],
                     "name":"Msvm_ProcessorSettingData_2012",
-                    "uri":"http://schemas.microsoft.com/wbem/wsman/1/wmi/root/virtualization/v2/Msvm_ProcessorSettingData_2012"
+                    "uri":"http://schemas.microsoft.com/wbem/wsman/1/wmi/root/virtualization/v2/Msvm_ProcessorSettingData"
                 },
                 {
                     "fields":[
@@ -3861,7 +3861,7 @@
                         }
                     ],
                     "name":"Msvm_VirtualHardDiskSettingData_2012",
-                    "uri":"http://schemas.microsoft.com/wbem/wsman/1/wmi/root/virtualization/v2/Msvm_VirtualHardDiskSettingData_2012"
+                    "uri":"http://schemas.microsoft.com/wbem/wsman/1/wmi/root/virtualization/v2/Msvm_VirtualHardDiskSettingData"
                 },
                 {
                     "fields":[
@@ -3979,7 +3979,7 @@
                         }
                     ],
                     "name":"Msvm_VirtualSystemManagementService_2012",
-                    "uri":"http://schemas.microsoft.com/wbem/wsman/1/wmi/root/virtualization/v2/Msvm_VirtualSystemManagementService_2012"
+                    "uri":"http://schemas.microsoft.com/wbem/wsman/1/wmi/root/virtualization/v2/Msvm_VirtualSystemManagementService"
                 },
                 {
                     "fields":[
@@ -4165,7 +4165,7 @@
                         }
                     ],
                     "name":"Msvm_VirtualSystemSettingData_2012",
-                    "uri":"http://schemas.microsoft.com/wbem/wsman/1/wmi/root/virtualization/v2/Msvm_VirtualSystemSettingData_2012"
+                    "uri":"http://schemas.microsoft.com/wbem/wsman/1/wmi/root/virtualization/v2/Msvm_VirtualSystemSettingData"
                 }
             ],
             "ns":"",

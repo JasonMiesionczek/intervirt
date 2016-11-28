@@ -97,7 +97,10 @@ class Namespace:
         for c in self.classes:
             if c['name'] == "" or c['uri'] == "" or len(c['fields']) == 0:
                 continue
-            real_classes.append(Class(name=c['name'], uri=c['uri'], fields=c['fields'], namespace=self))
+            class_name = c['name']
+            if class_name.endswith('_2012'):
+                class_name = class_name.replace('_2012','')
+            real_classes.append(Class(name=class_name, uri=c['uri'], fields=c['fields'], namespace=self))
         self.classes = real_classes
 
     def gen_class_files(self, cls):

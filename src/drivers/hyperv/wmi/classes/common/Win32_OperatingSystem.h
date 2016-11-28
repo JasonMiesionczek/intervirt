@@ -42,6 +42,7 @@ typedef struct _Win32_OperatingSystem_Data {
     XML_TYPE_STR Manufacturer;
     XML_TYPE_UINT32 MaxNumberOfProcesses;
     XML_TYPE_UINT64 MaxProcessMemorySize;
+    XML_TYPE_DYN_ARRAY MUILanguages;
     XML_TYPE_STR Name;
     XML_TYPE_UINT32 NumberOfLicensedUsers;
     XML_TYPE_UINT32 NumberOfProcesses;
