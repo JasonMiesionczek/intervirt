@@ -24,7 +24,7 @@ Win32ComputerSystemProduct::Win32ComputerSystemProduct()
         :AbstractWmiObject(
             WIN32_COMPUTERSYSTEMPRODUCT_WQL_SELECT,
             WIN32_COMPUTERSYSTEMPRODUCT_CLASSNAME,
-            "",
+            "http://schemas.microsoft.com/wbem/wsman/1/wmi/root/cimv2/*",
             WIN32_COMPUTERSYSTEMPRODUCT_RESOURCE_URI,
             Win32_ComputerSystemProduct_Data_TypeInfo
         ) {}

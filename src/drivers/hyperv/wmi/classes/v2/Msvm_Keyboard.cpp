@@ -59,7 +59,7 @@ MsvmKeyboard::MsvmKeyboard()
         :AbstractWmiObject(
             MSVM_KEYBOARD_WQL_SELECT,
             MSVM_KEYBOARD_CLASSNAME,
-            "",
+            "http://schemas.microsoft.com/wbem/wsman/1/wmi/root/virtualization/v2/*",
             MSVM_KEYBOARD_RESOURCE_URI,
             Msvm_Keyboard_Data_TypeInfo
         ) {}

@@ -41,7 +41,7 @@ MsvmMemorySettingData::MsvmMemorySettingData()
         :AbstractWmiObject(
             MSVM_MEMORYSETTINGDATA_WQL_SELECT,
             MSVM_MEMORYSETTINGDATA_CLASSNAME,
-            "",
+            "http://schemas.microsoft.com/wbem/wsman/1/wmi/root/virtualization/*",
             MSVM_MEMORYSETTINGDATA_RESOURCE_URI,
             Msvm_MemorySettingData_Data_TypeInfo
         ) {}

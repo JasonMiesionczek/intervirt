@@ -61,7 +61,7 @@ MsvmVirtualSystemSettingData::MsvmVirtualSystemSettingData()
         :AbstractWmiObject(
             MSVM_VIRTUALSYSTEMSETTINGDATA_WQL_SELECT,
             MSVM_VIRTUALSYSTEMSETTINGDATA_CLASSNAME,
-            "",
+            "http://schemas.microsoft.com/wbem/wsman/1/wmi/root/virtualization/v2/*",
             MSVM_VIRTUALSYSTEMSETTINGDATA_RESOURCE_URI,
             Msvm_VirtualSystemSettingData_Data_TypeInfo
         ) {}

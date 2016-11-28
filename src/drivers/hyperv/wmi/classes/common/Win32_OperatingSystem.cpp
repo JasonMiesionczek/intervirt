@@ -79,7 +79,7 @@ Win32OperatingSystem::Win32OperatingSystem()
         :AbstractWmiObject(
             WIN32_OPERATINGSYSTEM_WQL_SELECT,
             WIN32_OPERATINGSYSTEM_CLASSNAME,
-            "",
+            "http://schemas.microsoft.com/wbem/wsman/1/wmi/root/cimv2/*",
             WIN32_OPERATINGSYSTEM_RESOURCE_URI,
             Win32_OperatingSystem_Data_TypeInfo
         ) {}

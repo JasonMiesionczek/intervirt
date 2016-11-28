@@ -27,7 +27,7 @@ MsvmAllocationCapabilities::MsvmAllocationCapabilities()
         :AbstractWmiObject(
             MSVM_ALLOCATIONCAPABILITIES_WQL_SELECT,
             MSVM_ALLOCATIONCAPABILITIES_CLASSNAME,
-            "",
+            "http://schemas.microsoft.com/wbem/wsman/1/wmi/root/virtualization/*",
             MSVM_ALLOCATIONCAPABILITIES_RESOURCE_URI,
             Msvm_AllocationCapabilities_Data_TypeInfo
         ) {}

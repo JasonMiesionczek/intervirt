@@ -121,7 +121,7 @@ Win32PerfRawDataHvStatsHyperVHypervisorVirtualProcessor::Win32PerfRawDataHvStats
         :AbstractWmiObject(
             WIN32_PERFRAWDATA_HVSTATS_HYPERVHYPERVISORVIRTUALPROCESSOR_WQL_SELECT,
             WIN32_PERFRAWDATA_HVSTATS_HYPERVHYPERVISORVIRTUALPROCESSOR_CLASSNAME,
-            "",
+            "http://schemas.microsoft.com/wbem/wsman/1/wmi/root/cimv2/*",
             WIN32_PERFRAWDATA_HVSTATS_HYPERVHYPERVISORVIRTUALPROCESSOR_RESOURCE_URI,
             Win32_PerfRawData_HvStats_HyperVHypervisorVirtualProcessor_Data_TypeInfo
         ) {}

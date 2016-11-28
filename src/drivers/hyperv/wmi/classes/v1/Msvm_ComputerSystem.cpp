@@ -45,7 +45,7 @@ MsvmComputerSystem::MsvmComputerSystem()
         :AbstractWmiObject(
             MSVM_COMPUTERSYSTEM_WQL_SELECT,
             MSVM_COMPUTERSYSTEM_CLASSNAME,
-            "",
+            "http://schemas.microsoft.com/wbem/wsman/1/wmi/root/virtualization/*",
             MSVM_COMPUTERSYSTEM_RESOURCE_URI,
             Msvm_ComputerSystem_Data_TypeInfo
         ) {}

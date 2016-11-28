@@ -44,7 +44,7 @@ MsvmVirtualSystemManagementService::MsvmVirtualSystemManagementService()
         :AbstractWmiObject(
             MSVM_VIRTUALSYSTEMMANAGEMENTSERVICE_WQL_SELECT,
             MSVM_VIRTUALSYSTEMMANAGEMENTSERVICE_CLASSNAME,
-            "",
+            "http://schemas.microsoft.com/wbem/wsman/1/wmi/root/virtualization/v2/*",
             MSVM_VIRTUALSYSTEMMANAGEMENTSERVICE_RESOURCE_URI,
             Msvm_VirtualSystemManagementService_Data_TypeInfo
         ) {}

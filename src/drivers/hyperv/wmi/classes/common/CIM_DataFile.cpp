@@ -49,7 +49,7 @@ CIMDataFile::CIMDataFile()
         :AbstractWmiObject(
             CIM_DATAFILE_WQL_SELECT,
             CIM_DATAFILE_CLASSNAME,
-            "",
+            "http://schemas.microsoft.com/wbem/wsman/1/wmi/root/cimv2/*",
             CIM_DATAFILE_RESOURCE_URI,
             CIM_DataFile_Data_TypeInfo
         ) {}

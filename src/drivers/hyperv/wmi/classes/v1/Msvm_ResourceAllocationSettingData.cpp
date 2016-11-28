@@ -38,7 +38,7 @@ MsvmResourceAllocationSettingData::MsvmResourceAllocationSettingData()
         :AbstractWmiObject(
             MSVM_RESOURCEALLOCATIONSETTINGDATA_WQL_SELECT,
             MSVM_RESOURCEALLOCATIONSETTINGDATA_CLASSNAME,
-            "",
+            "http://schemas.microsoft.com/wbem/wsman/1/wmi/root/virtualization/*",
             MSVM_RESOURCEALLOCATIONSETTINGDATA_RESOURCE_URI,
             Msvm_ResourceAllocationSettingData_Data_TypeInfo
         ) {}

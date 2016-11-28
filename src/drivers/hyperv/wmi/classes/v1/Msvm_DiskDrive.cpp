@@ -72,7 +72,7 @@ MsvmDiskDrive::MsvmDiskDrive()
         :AbstractWmiObject(
             MSVM_DISKDRIVE_WQL_SELECT,
             MSVM_DISKDRIVE_CLASSNAME,
-            "",
+            "http://schemas.microsoft.com/wbem/wsman/1/wmi/root/virtualization/*",
             MSVM_DISKDRIVE_RESOURCE_URI,
             Msvm_DiskDrive_Data_TypeInfo
         ) {}

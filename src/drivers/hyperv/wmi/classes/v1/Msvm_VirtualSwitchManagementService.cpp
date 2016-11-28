@@ -37,7 +37,7 @@ MsvmVirtualSwitchManagementService::MsvmVirtualSwitchManagementService()
         :AbstractWmiObject(
             MSVM_VIRTUALSWITCHMANAGEMENTSERVICE_WQL_SELECT,
             MSVM_VIRTUALSWITCHMANAGEMENTSERVICE_CLASSNAME,
-            "",
+            "http://schemas.microsoft.com/wbem/wsman/1/wmi/root/virtualization/*",
             MSVM_VIRTUALSWITCHMANAGEMENTSERVICE_RESOURCE_URI,
             Msvm_VirtualSwitchManagementService_Data_TypeInfo
         ) {}

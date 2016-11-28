@@ -47,7 +47,7 @@ MsvmSwitchPort::MsvmSwitchPort()
         :AbstractWmiObject(
             MSVM_SWITCHPORT_WQL_SELECT,
             MSVM_SWITCHPORT_CLASSNAME,
-            "",
+            "http://schemas.microsoft.com/wbem/wsman/1/wmi/root/virtualization/*",
             MSVM_SWITCHPORT_RESOURCE_URI,
             Msvm_SwitchPort_Data_TypeInfo
         ) {}

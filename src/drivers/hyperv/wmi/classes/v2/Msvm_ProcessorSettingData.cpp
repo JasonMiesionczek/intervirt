@@ -43,7 +43,7 @@ MsvmProcessorSettingData::MsvmProcessorSettingData()
         :AbstractWmiObject(
             MSVM_PROCESSORSETTINGDATA_WQL_SELECT,
             MSVM_PROCESSORSETTINGDATA_CLASSNAME,
-            "",
+            "http://schemas.microsoft.com/wbem/wsman/1/wmi/root/virtualization/v2/*",
             MSVM_PROCESSORSETTINGDATA_RESOURCE_URI,
             Msvm_ProcessorSettingData_Data_TypeInfo
         ) {}

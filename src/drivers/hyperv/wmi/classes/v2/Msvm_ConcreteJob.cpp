@@ -57,7 +57,7 @@ MsvmConcreteJob::MsvmConcreteJob()
         :AbstractWmiObject(
             MSVM_CONCRETEJOB_WQL_SELECT,
             MSVM_CONCRETEJOB_CLASSNAME,
-            "",
+            "http://schemas.microsoft.com/wbem/wsman/1/wmi/root/virtualization/v2/*",
             MSVM_CONCRETEJOB_RESOURCE_URI,
             Msvm_ConcreteJob_Data_TypeInfo
         ) {}

@@ -64,7 +64,7 @@ Win32Processor::Win32Processor()
         :AbstractWmiObject(
             WIN32_PROCESSOR_WQL_SELECT,
             WIN32_PROCESSOR_CLASSNAME,
-            "",
+            "http://schemas.microsoft.com/wbem/wsman/1/wmi/root/cimv2/*",
             WIN32_PROCESSOR_RESOURCE_URI,
             Win32_Processor_Data_TypeInfo
         ) {}

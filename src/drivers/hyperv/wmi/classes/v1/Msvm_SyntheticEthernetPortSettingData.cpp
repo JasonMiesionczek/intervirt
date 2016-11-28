@@ -39,7 +39,7 @@ MsvmSyntheticEthernetPortSettingData::MsvmSyntheticEthernetPortSettingData()
         :AbstractWmiObject(
             MSVM_SYNTHETICETHERNETPORTSETTINGDATA_WQL_SELECT,
             MSVM_SYNTHETICETHERNETPORTSETTINGDATA_CLASSNAME,
-            "",
+            "http://schemas.microsoft.com/wbem/wsman/1/wmi/root/virtualization/*",
             MSVM_SYNTHETICETHERNETPORTSETTINGDATA_RESOURCE_URI,
             Msvm_SyntheticEthernetPortSettingData_Data_TypeInfo
         ) {}

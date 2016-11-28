@@ -29,7 +29,7 @@ MsvmVirtualHardDiskSettingData::MsvmVirtualHardDiskSettingData()
         :AbstractWmiObject(
             MSVM_VIRTUALHARDDISKSETTINGDATA_WQL_SELECT,
             MSVM_VIRTUALHARDDISKSETTINGDATA_CLASSNAME,
-            "",
+            "http://schemas.microsoft.com/wbem/wsman/1/wmi/root/virtualization/v2/*",
             MSVM_VIRTUALHARDDISKSETTINGDATA_RESOURCE_URI,
             Msvm_VirtualHardDiskSettingData_Data_TypeInfo
         ) {}
