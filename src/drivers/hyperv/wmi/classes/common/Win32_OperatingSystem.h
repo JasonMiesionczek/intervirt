@@ -1,3 +1,4 @@
+
 #ifndef COMMON_WIN32_OPERATINGSYSTEM_H
 #define COMMON_WIN32_OPERATINGSYSTEM_H
 
@@ -41,7 +42,6 @@ typedef struct _Win32_OperatingSystem_Data {
     XML_TYPE_STR Manufacturer;
     XML_TYPE_UINT32 MaxNumberOfProcesses;
     XML_TYPE_UINT64 MaxProcessMemorySize;
-    //XML_TYPE_DYN_ARRAY MUILanguages;
     XML_TYPE_STR Name;
     XML_TYPE_UINT32 NumberOfLicensedUsers;
     XML_TYPE_UINT32 NumberOfProcesses;
@@ -73,12 +73,9 @@ typedef struct _Win32_OperatingSystem_Data {
     XML_TYPE_UINT64 TotalVisibleMemorySize;
     XML_TYPE_STR Version;
     XML_TYPE_STR WindowsDirectory;
+
 } Win32_OperatingSystem_Data;
-
 SER_DECLARE_TYPE(Win32_OperatingSystem_Data);
-//typedef struct _Win32_OperatingSystem_Data Win32_OperatingSystem_Data;
-//typedef struct _Win32_OperatingSystem Win32_OperatingSystem;
-
 typedef struct _Win32_OperatingSystem {
     XmlSerializerInfo *serializerInfo;
     Win32_OperatingSystem_Data *data;
@@ -93,9 +90,6 @@ typedef struct _Win32_OperatingSystem {
 #define WIN32_OPERATINGSYSTEM_WQL_SELECT \
     "select * from Win32_OperatingSystem "
 
-#define ROOT_CIMV2 \
-    "http://schemas.microsoft.com/wbem/wsman/1/wmi/root/cimv2/*"
-
 class Win32OperatingSystem : public AbstractWmiObject
 {
 public:
@@ -106,6 +100,5 @@ public:
 }
 }
 }
-
-
 #endif /* COMMON_WIN32_OPERATINGSYSTEM_H */
+

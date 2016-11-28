@@ -1,3 +1,4 @@
+
 #include "Win32_OperatingSystem.h"
 
 namespace Drivers {
@@ -38,7 +39,6 @@ SER_START_ITEMS(Win32_OperatingSystem_Data)
     SER_NS_STR(WIN32_OPERATINGSYSTEM_RESOURCE_URI, "Manufacturer", 1),
     SER_NS_UINT32(WIN32_OPERATINGSYSTEM_RESOURCE_URI, "MaxNumberOfProcesses", 1),
     SER_NS_UINT64(WIN32_OPERATINGSYSTEM_RESOURCE_URI, "MaxProcessMemorySize", 1),
-    //SER_NS_DYN_ARRAY(WIN32_OPERATINGSYSTEM_RESOURCE_URI, "MUILanguages", 0, 0, string),
     SER_NS_STR(WIN32_OPERATINGSYSTEM_RESOURCE_URI, "Name", 1),
     SER_NS_UINT32(WIN32_OPERATINGSYSTEM_RESOURCE_URI, "NumberOfLicensedUsers", 1),
     SER_NS_UINT32(WIN32_OPERATINGSYSTEM_RESOURCE_URI, "NumberOfProcesses", 1),
@@ -70,13 +70,14 @@ SER_START_ITEMS(Win32_OperatingSystem_Data)
     SER_NS_UINT64(WIN32_OPERATINGSYSTEM_RESOURCE_URI, "TotalVisibleMemorySize", 1),
     SER_NS_STR(WIN32_OPERATINGSYSTEM_RESOURCE_URI, "Version", 1),
     SER_NS_STR(WIN32_OPERATINGSYSTEM_RESOURCE_URI, "WindowsDirectory", 1),
+
 SER_END_ITEMS(Win32_OperatingSystem_Data);
 
 Win32OperatingSystem::Win32OperatingSystem()
         :AbstractWmiObject(
             WIN32_OPERATINGSYSTEM_WQL_SELECT,
             WIN32_OPERATINGSYSTEM_CLASSNAME,
-            ROOT_CIMV2,
+            "http://schemas.microsoft.com/wbem/wsman/1/wmi/root/cimv2/*",
             WIN32_OPERATINGSYSTEM_RESOURCE_URI,
             Win32_OperatingSystem_Data_TypeInfo
         ) {}

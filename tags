@@ -4,4 +4,6 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
+d	src/drivers/hyperv/wmi/classes/generate_classes.py	/^    d = json.load(json_data)$/;"	kind:variable	line:4
 generate_classes.py	src/drivers/hyperv/wmi/classes/generate_classes.py	1;"	kind:file	line:1
+json	src/drivers/hyperv/wmi/classes/generate_classes.py	/^import json$/;"	kind:namespace	line:1
