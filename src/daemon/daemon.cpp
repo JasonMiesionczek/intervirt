@@ -6,6 +6,7 @@
 #include <drivers/hyperv/wmi/WmiHelper.h>
 //#include <drivers/hyperv/wmi/classes/common/Win32_OperatingSystem.h>
 #include <drivers/hyperv/HypervFactory.h>
+#include <drivers/esx/EsxFactory.h>
 #include <openwsman/wsman-api.h>
 #include <fcntl.h>
 #include <stdio.h>
@@ -87,6 +88,8 @@ using namespace Drivers::Hyperv;
 using namespace Drivers::Hyperv::Wmi;
 using namespace Drivers::Hyperv::Wmi::Classes::Common;
 
+using namespace Drivers::Esx;
+
 int main()
 {
     //daemonize();
@@ -94,8 +97,9 @@ int main()
 
     auto manager = MKSHRD(DriverManager); //std::make_shared<DriverManager>();
     manager->registerDriver("hyperv", MKSHRD(HypervFactory));
+    manager->registerDriver("esx", MKSHRD(EsxFactory));
 
-    auto connection = std::make_shared<Connection::HypervisorConnection>("hyperv://administrator@10.0.22.97", "Datto1000!");
+    auto connection = std::make_shared<Connection::HypervisorConnection>("esx://administrator@10.0.22.97", "Datto1000!");
     std::cout << connection->getProtocol() << std::endl;
     std::cout << connection->getHost() << std::endl;
     std::cout << connection->getUsername() << std::endl;
@@ -105,13 +109,11 @@ int main()
     auto driver = factory->create(connection);
     auto helper = MKSHRD(WmiHelper, connection);
 
-    //auto objects = helper->Enumerate<Win32_OperatingSystem, Win32OperatingSystem>();
     auto vms = driver->getVirtualMachines();
     for (auto&& vm : vms) {
         std::cout << vm->toString() << std::endl;
     }
 
-    //std::cout << objects[0]->data->Version << std::endl;
     HttpServer httpServer(8383);
     RpcServer rpcServer(httpServer, manager);
     rpcServer.StartListening();

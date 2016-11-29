@@ -7,7 +7,7 @@ EsxFactory::~EsxFactory() {}
 
 IDriverPtr EsxFactory::create(Connection::ConnectionPtr conn)
 {
-    return nullptr;
+    return MKSHRD(EsxDriver, conn);
 }
 }
 }
