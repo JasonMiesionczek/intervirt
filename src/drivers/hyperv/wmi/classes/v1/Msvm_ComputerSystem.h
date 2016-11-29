@@ -48,13 +48,13 @@ typedef struct _Msvm_ComputerSystem {
     Msvm_ComputerSystem_Data *data;
 } Msvm_ComputerSystem;
 
-#define MSVM_COMPUTERSYSTEM_RESOURCE_URI \
+#define V1_MSVM_COMPUTERSYSTEM_RESOURCE_URI \
     "http://schemas.microsoft.com/wbem/wsman/1/wmi/root/virtualization/Msvm_ComputerSystem"
 
-#define MSVM_COMPUTERSYSTEM_CLASSNAME \
+#define V1_MSVM_COMPUTERSYSTEM_CLASSNAME \
     "Msvm_ComputerSystem"
 
-#define MSVM_COMPUTERSYSTEM_WQL_SELECT \
+#define V1_MSVM_COMPUTERSYSTEM_WQL_SELECT \
     "select * from Msvm_ComputerSystem "
 
 class MsvmComputerSystem : public AbstractWmiObject

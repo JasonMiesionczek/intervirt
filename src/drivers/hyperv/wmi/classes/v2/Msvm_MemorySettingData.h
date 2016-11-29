@@ -47,13 +47,13 @@ typedef struct _Msvm_MemorySettingData {
     Msvm_MemorySettingData_Data *data;
 } Msvm_MemorySettingData;
 
-#define MSVM_MEMORYSETTINGDATA_RESOURCE_URI \
+#define V2_MSVM_MEMORYSETTINGDATA_RESOURCE_URI \
     "http://schemas.microsoft.com/wbem/wsman/1/wmi/root/virtualization/v2/Msvm_MemorySettingData"
 
-#define MSVM_MEMORYSETTINGDATA_CLASSNAME \
+#define V2_MSVM_MEMORYSETTINGDATA_CLASSNAME \
     "Msvm_MemorySettingData"
 
-#define MSVM_MEMORYSETTINGDATA_WQL_SELECT \
+#define V2_MSVM_MEMORYSETTINGDATA_WQL_SELECT \
     "select * from Msvm_MemorySettingData "
 
 class MsvmMemorySettingData : public AbstractWmiObject

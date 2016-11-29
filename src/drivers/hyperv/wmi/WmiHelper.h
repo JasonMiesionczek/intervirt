@@ -19,6 +19,14 @@ namespace Drivers {
             public:
               WmiHelper(Connection::ConnectionPtr conn);
               ~WmiHelper();
+              template<typename T>
+              void FreeResults(std::vector<T*> results) {
+                    auto context = wsmc_get_serialization_context(this->client_);
+                    for (auto o : results) {
+                        ws_serializer_free_mem(context, o->data, o->serializerInfo);
+                    }
+              }
+
               template<typename T, typename O>
               std::vector<T*> Enumerate() {
                   auto source = MKSHRD(O);
@@ -44,6 +52,7 @@ namespace Drivers {
               }
             private:
               WsManClient *client_;
+              
               std::vector<WmiObject *> GenericEnumerate(std::string query_string, std::string resourceUri, std::string className, std::string ns, XmlSerializerInfo *serializerInfo);
             };
         } // namespace Wmi

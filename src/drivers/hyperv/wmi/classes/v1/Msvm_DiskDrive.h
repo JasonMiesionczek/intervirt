@@ -75,13 +75,13 @@ typedef struct _Msvm_DiskDrive {
     Msvm_DiskDrive_Data *data;
 } Msvm_DiskDrive;
 
-#define MSVM_DISKDRIVE_RESOURCE_URI \
+#define V1_MSVM_DISKDRIVE_RESOURCE_URI \
     "http://schemas.microsoft.com/wbem/wsman/1/wmi/root/virtualization/Msvm_DiskDrive"
 
-#define MSVM_DISKDRIVE_CLASSNAME \
+#define V1_MSVM_DISKDRIVE_CLASSNAME \
     "Msvm_DiskDrive"
 
-#define MSVM_DISKDRIVE_WQL_SELECT \
+#define V1_MSVM_DISKDRIVE_WQL_SELECT \
     "select * from Msvm_DiskDrive "
 
 class MsvmDiskDrive : public AbstractWmiObject

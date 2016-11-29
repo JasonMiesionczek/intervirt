@@ -55,13 +55,13 @@ typedef struct _Msvm_ConcreteJob {
     Msvm_ConcreteJob_Data *data;
 } Msvm_ConcreteJob;
 
-#define MSVM_CONCRETEJOB_RESOURCE_URI \
+#define V1_MSVM_CONCRETEJOB_RESOURCE_URI \
     "http://schemas.microsoft.com/wbem/wsman/1/wmi/root/virtualization/Msvm_ConcreteJob"
 
-#define MSVM_CONCRETEJOB_CLASSNAME \
+#define V1_MSVM_CONCRETEJOB_CLASSNAME \
     "Msvm_ConcreteJob"
 
-#define MSVM_CONCRETEJOB_WQL_SELECT \
+#define V1_MSVM_CONCRETEJOB_WQL_SELECT \
     "select * from Msvm_ConcreteJob "
 
 class MsvmConcreteJob : public AbstractWmiObject

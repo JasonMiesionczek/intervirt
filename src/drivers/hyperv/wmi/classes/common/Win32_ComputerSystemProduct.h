@@ -27,13 +27,13 @@ typedef struct _Win32_ComputerSystemProduct {
     Win32_ComputerSystemProduct_Data *data;
 } Win32_ComputerSystemProduct;
 
-#define WIN32_COMPUTERSYSTEMPRODUCT_RESOURCE_URI \
+#define COMMON_WIN32_COMPUTERSYSTEMPRODUCT_RESOURCE_URI \
     "http://schemas.microsoft.com/wbem/wsman/1/wmi/root/cimv2/Win32_ComputerSystemProduct"
 
-#define WIN32_COMPUTERSYSTEMPRODUCT_CLASSNAME \
+#define COMMON_WIN32_COMPUTERSYSTEMPRODUCT_CLASSNAME \
     "Win32_ComputerSystemProduct"
 
-#define WIN32_COMPUTERSYSTEMPRODUCT_WQL_SELECT \
+#define COMMON_WIN32_COMPUTERSYSTEMPRODUCT_WQL_SELECT \
     "select * from Win32_ComputerSystemProduct "
 
 class Win32ComputerSystemProduct : public AbstractWmiObject

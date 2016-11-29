@@ -52,13 +52,13 @@ typedef struct _CIM_DataFile {
     CIM_DataFile_Data *data;
 } CIM_DataFile;
 
-#define CIM_DATAFILE_RESOURCE_URI \
+#define COMMON_CIM_DATAFILE_RESOURCE_URI \
     "http://schemas.microsoft.com/wbem/wsman/1/wmi/root/cimv2/CIM_DataFile"
 
-#define CIM_DATAFILE_CLASSNAME \
+#define COMMON_CIM_DATAFILE_CLASSNAME \
     "CIM_DataFile"
 
-#define CIM_DATAFILE_WQL_SELECT \
+#define COMMON_CIM_DATAFILE_WQL_SELECT \
     "select * from CIM_DataFile "
 
 class CIMDataFile : public AbstractWmiObject

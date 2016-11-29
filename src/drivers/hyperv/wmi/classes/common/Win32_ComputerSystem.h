@@ -76,13 +76,13 @@ typedef struct _Win32_ComputerSystem {
     Win32_ComputerSystem_Data *data;
 } Win32_ComputerSystem;
 
-#define WIN32_COMPUTERSYSTEM_RESOURCE_URI \
+#define COMMON_WIN32_COMPUTERSYSTEM_RESOURCE_URI \
     "http://schemas.microsoft.com/wbem/wsman/1/wmi/root/cimv2/Win32_ComputerSystem"
 
-#define WIN32_COMPUTERSYSTEM_CLASSNAME \
+#define COMMON_WIN32_COMPUTERSYSTEM_CLASSNAME \
     "Win32_ComputerSystem"
 
-#define WIN32_COMPUTERSYSTEM_WQL_SELECT \
+#define COMMON_WIN32_COMPUTERSYSTEM_WQL_SELECT \
     "select * from Win32_ComputerSystem "
 
 class Win32ComputerSystem : public AbstractWmiObject

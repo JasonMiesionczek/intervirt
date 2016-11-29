@@ -1300,7 +1300,7 @@
                     "uri":"http://schemas.microsoft.com/wbem/wsman/1/wmi/root/cimv2/Win32_Processor"
                 }
             ],
-            "ns":"",
+            "ns":"http://schemas.microsoft.com/wbem/wsman/1/wmi/root/cimv2/*",
             "name":"common"
         },
         {
@@ -3098,7 +3098,7 @@
                     "uri":"http://schemas.microsoft.com/wbem/wsman/1/wmi/root/virtualization/Msvm_VirtualSystemSettingData"
                 }
             ],
-            "ns":"",
+            "ns":"http://schemas.microsoft.com/wbem/wsman/1/wmi/root/virtualization/*",
             "name":"v1"
         },
         {
@@ -4168,7 +4168,7 @@
                     "uri":"http://schemas.microsoft.com/wbem/wsman/1/wmi/root/virtualization/v2/Msvm_VirtualSystemSettingData"
                 }
             ],
-            "ns":"",
+            "ns":"http://schemas.microsoft.com/wbem/wsman/1/wmi/root/virtualization/v2/*",
             "name":"v2"
         }
     ]

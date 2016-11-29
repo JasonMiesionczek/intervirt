@@ -48,13 +48,13 @@ typedef struct _Msvm_VirtualSwitch {
     Msvm_VirtualSwitch_Data *data;
 } Msvm_VirtualSwitch;
 
-#define MSVM_VIRTUALSWITCH_RESOURCE_URI \
+#define V1_MSVM_VIRTUALSWITCH_RESOURCE_URI \
     "http://schemas.microsoft.com/wbem/wsman/1/wmi/root/virtualization/Msvm_VirtualSwitch"
 
-#define MSVM_VIRTUALSWITCH_CLASSNAME \
+#define V1_MSVM_VIRTUALSWITCH_CLASSNAME \
     "Msvm_VirtualSwitch"
 
-#define MSVM_VIRTUALSWITCH_WQL_SELECT \
+#define V1_MSVM_VIRTUALSWITCH_WQL_SELECT \
     "select * from Msvm_VirtualSwitch "
 
 class MsvmVirtualSwitch : public AbstractWmiObject

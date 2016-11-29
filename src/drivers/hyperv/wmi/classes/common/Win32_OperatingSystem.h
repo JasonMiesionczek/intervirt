@@ -82,13 +82,13 @@ typedef struct _Win32_OperatingSystem {
     Win32_OperatingSystem_Data *data;
 } Win32_OperatingSystem;
 
-#define WIN32_OPERATINGSYSTEM_RESOURCE_URI \
+#define COMMON_WIN32_OPERATINGSYSTEM_RESOURCE_URI \
     "http://schemas.microsoft.com/wbem/wsman/1/wmi/root/cimv2/Win32_OperatingSystem"
 
-#define WIN32_OPERATINGSYSTEM_CLASSNAME \
+#define COMMON_WIN32_OPERATINGSYSTEM_CLASSNAME \
     "Win32_OperatingSystem"
 
-#define WIN32_OPERATINGSYSTEM_WQL_SELECT \
+#define COMMON_WIN32_OPERATINGSYSTEM_WQL_SELECT \
     "select * from Win32_OperatingSystem "
 
 class Win32OperatingSystem : public AbstractWmiObject

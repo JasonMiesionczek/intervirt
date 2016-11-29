@@ -41,13 +41,13 @@ typedef struct _Msvm_ResourceAllocationSettingData {
     Msvm_ResourceAllocationSettingData_Data *data;
 } Msvm_ResourceAllocationSettingData;
 
-#define MSVM_RESOURCEALLOCATIONSETTINGDATA_RESOURCE_URI \
+#define V1_MSVM_RESOURCEALLOCATIONSETTINGDATA_RESOURCE_URI \
     "http://schemas.microsoft.com/wbem/wsman/1/wmi/root/virtualization/Msvm_ResourceAllocationSettingData"
 
-#define MSVM_RESOURCEALLOCATIONSETTINGDATA_CLASSNAME \
+#define V1_MSVM_RESOURCEALLOCATIONSETTINGDATA_CLASSNAME \
     "Msvm_ResourceAllocationSettingData"
 
-#define MSVM_RESOURCEALLOCATIONSETTINGDATA_WQL_SELECT \
+#define V1_MSVM_RESOURCEALLOCATIONSETTINGDATA_WQL_SELECT \
     "select * from Msvm_ResourceAllocationSettingData "
 
 class MsvmResourceAllocationSettingData : public AbstractWmiObject

@@ -124,13 +124,13 @@ typedef struct _Win32_PerfRawData_HvStats_HyperVHypervisorVirtualProcessor {
     Win32_PerfRawData_HvStats_HyperVHypervisorVirtualProcessor_Data *data;
 } Win32_PerfRawData_HvStats_HyperVHypervisorVirtualProcessor;
 
-#define WIN32_PERFRAWDATA_HVSTATS_HYPERVHYPERVISORVIRTUALPROCESSOR_RESOURCE_URI \
+#define COMMON_WIN32_PERFRAWDATA_HVSTATS_HYPERVHYPERVISORVIRTUALPROCESSOR_RESOURCE_URI \
     "http://schemas.microsoft.com/wbem/wsman/1/wmi/root/cimv2/Win32_PerfRawData_HvStats_HyperVHypervisorVirtualProcessor"
 
-#define WIN32_PERFRAWDATA_HVSTATS_HYPERVHYPERVISORVIRTUALPROCESSOR_CLASSNAME \
+#define COMMON_WIN32_PERFRAWDATA_HVSTATS_HYPERVHYPERVISORVIRTUALPROCESSOR_CLASSNAME \
     "Win32_PerfRawData_HvStats_HyperVHypervisorVirtualProcessor"
 
-#define WIN32_PERFRAWDATA_HVSTATS_HYPERVHYPERVISORVIRTUALPROCESSOR_WQL_SELECT \
+#define COMMON_WIN32_PERFRAWDATA_HVSTATS_HYPERVHYPERVISORVIRTUALPROCESSOR_WQL_SELECT \
     "select * from Win32_PerfRawData_HvStats_HyperVHypervisorVirtualProcessor "
 
 class Win32PerfRawDataHvStatsHyperVHypervisorVirtualProcessor : public AbstractWmiObject

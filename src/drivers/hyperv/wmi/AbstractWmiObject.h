@@ -7,6 +7,16 @@
 namespace Drivers {
 namespace Hyperv {
 namespace Wmi {
+
+extern XmlSerializerInfo bool_TypeInfo[];
+extern XmlSerializerInfo string_TypeInfo[];
+extern XmlSerializerInfo int8_TypeInfo[];
+extern XmlSerializerInfo int16_TypeInfo[];
+extern XmlSerializerInfo int32_TypeInfo[];
+extern XmlSerializerInfo uint8_TypeInfo[];
+extern XmlSerializerInfo uint16_TypeInfo[];
+extern XmlSerializerInfo uint32_TypeInfo[];
+
 class AbstractWmiObject
 {
 public:
