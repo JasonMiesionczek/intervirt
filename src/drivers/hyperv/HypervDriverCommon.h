@@ -24,6 +24,20 @@ enum class V1_Msvm_EnabledState : int {
     RESUMING = 32777      /*   active */
 };
 
+enum class V2_Msvm_EnabledState : int {
+    UNKNOWN = 0,             /* inactive */
+    OTHER = 1,               /*   active */
+    ENABLED = 2,             /*   active */
+    DISABLED = 3,            /* inactive */
+    SHUTTING_DOWN = 4,       /*   active */
+    NOT_APPLICABLE = 5,      /*   active */
+    ENABLED_BUT_OFFLINE = 6, /*   active */
+    IN_TEST = 7,             /*   active */
+    DEFERRED = 8,            /*   active */
+    QUIESCE = 9,             /*   active */
+    STARTING = 10,           /*   active */
+};
+
 class HypervDriverCommon : public IDriver
 {
 public:
