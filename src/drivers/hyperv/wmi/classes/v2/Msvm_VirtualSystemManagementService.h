@@ -47,13 +47,13 @@ typedef struct _Msvm_VirtualSystemManagementService {
     Msvm_VirtualSystemManagementService_Data *data;
 } Msvm_VirtualSystemManagementService;
 
-#define MSVM_VIRTUALSYSTEMMANAGEMENTSERVICE_RESOURCE_URI \
+#define V2_MSVM_VIRTUALSYSTEMMANAGEMENTSERVICE_RESOURCE_URI \
     "http://schemas.microsoft.com/wbem/wsman/1/wmi/root/virtualization/v2/Msvm_VirtualSystemManagementService"
 
-#define MSVM_VIRTUALSYSTEMMANAGEMENTSERVICE_CLASSNAME \
+#define V2_MSVM_VIRTUALSYSTEMMANAGEMENTSERVICE_CLASSNAME \
     "Msvm_VirtualSystemManagementService"
 
-#define MSVM_VIRTUALSYSTEMMANAGEMENTSERVICE_WQL_SELECT \
+#define V2_MSVM_VIRTUALSYSTEMMANAGEMENTSERVICE_WQL_SELECT \
     "select * from Msvm_VirtualSystemManagementService "
 
 class MsvmVirtualSystemManagementService : public AbstractWmiObject

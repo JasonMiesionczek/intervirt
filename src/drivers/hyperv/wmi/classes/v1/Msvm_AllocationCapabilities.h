@@ -30,13 +30,13 @@ typedef struct _Msvm_AllocationCapabilities {
     Msvm_AllocationCapabilities_Data *data;
 } Msvm_AllocationCapabilities;
 
-#define MSVM_ALLOCATIONCAPABILITIES_RESOURCE_URI \
+#define V1_MSVM_ALLOCATIONCAPABILITIES_RESOURCE_URI \
     "http://schemas.microsoft.com/wbem/wsman/1/wmi/root/virtualization/Msvm_AllocationCapabilities"
 
-#define MSVM_ALLOCATIONCAPABILITIES_CLASSNAME \
+#define V1_MSVM_ALLOCATIONCAPABILITIES_CLASSNAME \
     "Msvm_AllocationCapabilities"
 
-#define MSVM_ALLOCATIONCAPABILITIES_WQL_SELECT \
+#define V1_MSVM_ALLOCATIONCAPABILITIES_WQL_SELECT \
     "select * from Msvm_AllocationCapabilities "
 
 class MsvmAllocationCapabilities : public AbstractWmiObject

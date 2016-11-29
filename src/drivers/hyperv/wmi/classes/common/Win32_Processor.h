@@ -67,13 +67,13 @@ typedef struct _Win32_Processor {
     Win32_Processor_Data *data;
 } Win32_Processor;
 
-#define WIN32_PROCESSOR_RESOURCE_URI \
+#define COMMON_WIN32_PROCESSOR_RESOURCE_URI \
     "http://schemas.microsoft.com/wbem/wsman/1/wmi/root/cimv2/Win32_Processor"
 
-#define WIN32_PROCESSOR_CLASSNAME \
+#define COMMON_WIN32_PROCESSOR_CLASSNAME \
     "Win32_Processor"
 
-#define WIN32_PROCESSOR_WQL_SELECT \
+#define COMMON_WIN32_PROCESSOR_WQL_SELECT \
     "select * from Win32_Processor "
 
 class Win32Processor : public AbstractWmiObject

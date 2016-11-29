@@ -42,13 +42,13 @@ typedef struct _Msvm_SyntheticEthernetPortSettingData {
     Msvm_SyntheticEthernetPortSettingData_Data *data;
 } Msvm_SyntheticEthernetPortSettingData;
 
-#define MSVM_SYNTHETICETHERNETPORTSETTINGDATA_RESOURCE_URI \
+#define V1_MSVM_SYNTHETICETHERNETPORTSETTINGDATA_RESOURCE_URI \
     "http://schemas.microsoft.com/wbem/wsman/1/wmi/root/virtualization/Msvm_SyntheticEthernetPortSettingData"
 
-#define MSVM_SYNTHETICETHERNETPORTSETTINGDATA_CLASSNAME \
+#define V1_MSVM_SYNTHETICETHERNETPORTSETTINGDATA_CLASSNAME \
     "Msvm_SyntheticEthernetPortSettingData"
 
-#define MSVM_SYNTHETICETHERNETPORTSETTINGDATA_WQL_SELECT \
+#define V1_MSVM_SYNTHETICETHERNETPORTSETTINGDATA_WQL_SELECT \
     "select * from Msvm_SyntheticEthernetPortSettingData "
 
 class MsvmSyntheticEthernetPortSettingData : public AbstractWmiObject

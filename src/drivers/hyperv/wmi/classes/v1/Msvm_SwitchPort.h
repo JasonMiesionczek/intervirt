@@ -50,13 +50,13 @@ typedef struct _Msvm_SwitchPort {
     Msvm_SwitchPort_Data *data;
 } Msvm_SwitchPort;
 
-#define MSVM_SWITCHPORT_RESOURCE_URI \
+#define V1_MSVM_SWITCHPORT_RESOURCE_URI \
     "http://schemas.microsoft.com/wbem/wsman/1/wmi/root/virtualization/Msvm_SwitchPort"
 
-#define MSVM_SWITCHPORT_CLASSNAME \
+#define V1_MSVM_SWITCHPORT_CLASSNAME \
     "Msvm_SwitchPort"
 
-#define MSVM_SWITCHPORT_WQL_SELECT \
+#define V1_MSVM_SWITCHPORT_WQL_SELECT \
     "select * from Msvm_SwitchPort "
 
 class MsvmSwitchPort : public AbstractWmiObject

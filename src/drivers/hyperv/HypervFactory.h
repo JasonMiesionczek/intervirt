@@ -7,6 +7,7 @@
 #include <objects/HypervisorConnection.h>
 #include <drivers/hyperv/wmi/WmiHelper.h>
 #include <drivers/hyperv/HypervDriverLegacy.h>
+#include <drivers/hyperv/HypervDriverModern.h>
 #include <drivers/hyperv/wmi/classes/common/Win32_OperatingSystem.h>
 
 using namespace Drivers::Hyperv::Wmi::Classes::Common;

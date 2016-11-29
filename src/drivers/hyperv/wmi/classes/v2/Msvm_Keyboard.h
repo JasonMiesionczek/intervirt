@@ -62,13 +62,13 @@ typedef struct _Msvm_Keyboard {
     Msvm_Keyboard_Data *data;
 } Msvm_Keyboard;
 
-#define MSVM_KEYBOARD_RESOURCE_URI \
+#define V2_MSVM_KEYBOARD_RESOURCE_URI \
     "http://schemas.microsoft.com/wbem/wsman/1/wmi/root/virtualization/v2/Msvm_Keyboard"
 
-#define MSVM_KEYBOARD_CLASSNAME \
+#define V2_MSVM_KEYBOARD_CLASSNAME \
     "Msvm_Keyboard"
 
-#define MSVM_KEYBOARD_WQL_SELECT \
+#define V2_MSVM_KEYBOARD_WQL_SELECT \
     "select * from Msvm_Keyboard "
 
 class MsvmKeyboard : public AbstractWmiObject

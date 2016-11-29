@@ -21,6 +21,11 @@ namespace Drivers {
             {
             }
 
+            // void WmiHelper::FreeResults(std::vector<WmiObject *> results)
+            // {
+                
+            // }
+
             std::vector<WmiObject*> WmiHelper::GenericEnumerate(
                 std::string query_string, 
                 std::string resourceUri, 
@@ -62,6 +67,7 @@ namespace Drivers {
                     data = ws_deserialize(serializerContext, node, serializerInfo,
                                         className.c_str(), resourceUri.c_str(), NULL, 0, 0);
 
+                    object = (WmiObject *)calloc(1, sizeof(WmiObject));
                     object->serializerInfo = serializerInfo;
                     object->data = data;
                     objects.push_back(object);
@@ -78,6 +84,7 @@ namespace Drivers {
                 //ws_serializer_free_mem(serializerContext, data, serializerInfo);
                 ws_xml_destroy_doc(response);
                 free(enumContext);
+
                 return objects;
             }
         } // namespace Wmi

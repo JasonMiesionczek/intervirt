@@ -22,13 +22,13 @@ typedef struct _<cls> {
     <cls>_Data *data;
 } <cls>;
 
-#define <CLS>_RESOURCE_URI \\
+#define <NS>_<CLS>_RESOURCE_URI \\
     "<uri>"
 
-#define <CLS>_CLASSNAME \\
+#define <NS>_<CLS>_CLASSNAME \\
     "<cls>"
 
-#define <CLS>_WQL_SELECT \\
+#define <NS>_<CLS>_WQL_SELECT \\
     "select * from <cls> "
 
 class <clsSmall> : public AbstractWmiObject
@@ -61,10 +61,10 @@ SER_END_ITEMS(<cls>_Data);
 
 <clsSmall>::<clsSmall>()
         :AbstractWmiObject(
-            <CLS>_WQL_SELECT,
-            <CLS>_CLASSNAME,
+            <NS2>_<CLS>_WQL_SELECT,
+            <NS2>_<CLS>_CLASSNAME,
             "<NS>",
-            <CLS>_RESOURCE_URI,
+            <NS2>_<CLS>_RESOURCE_URI,
             <cls>_Data_TypeInfo
         ) {}
 
@@ -128,6 +128,7 @@ class Namespace:
         body = body.replace('<clsSmall>', cls_small)
         body = body.replace('<CLS>', upper_cls)
         body = body.replace('<NS>', self.ns)
+        body = body.replace('<NS2>', self.name.upper())
         body = cls.gen_xml_def(body)
         print header
         with open(output_header_name, 'w') as output_header_file:
@@ -210,11 +211,11 @@ class Field:
 
     def gen_xml_entry(self):
         if self.is_array:
-            return "    SER_NS_DYN_ARRAY(%s_RESOURCE_URI, \"%s\", 0, 0, %s),\n" \
-                    % (self.cls.name.upper(), self.name, self.type)
+            return "    SER_NS_DYN_ARRAY(%s_%s_RESOURCE_URI, \"%s\", 0, 0, %s),\n" \
+                    % (self.cls.namespace.name.upper(), self.cls.name.upper(), self.name, self.type)
         else:
-            return "    SER_NS_%s(%s_RESOURCE_URI, \"%s\", 1),\n" \
-                    % (Field.typemap[self.type], self.cls.name.upper(), self.name)
+            return "    SER_NS_%s(%s_%s_RESOURCE_URI, \"%s\", 1),\n" \
+                    % (Field.typemap[self.type], self.cls.namespace.name.upper(), self.cls.name.upper(), self.name)
 
 
 namespaces = []

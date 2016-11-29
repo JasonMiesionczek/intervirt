@@ -106,6 +106,10 @@ int main()
     auto helper = MKSHRD(WmiHelper, connection);
 
     //auto objects = helper->Enumerate<Win32_OperatingSystem, Win32OperatingSystem>();
+    auto vms = driver->getVirtualMachines();
+    for (auto&& vm : vms) {
+        std::cout << vm->toString() << std::endl;
+    }
 
     //std::cout << objects[0]->data->Version << std::endl;
     HttpServer httpServer(8383);

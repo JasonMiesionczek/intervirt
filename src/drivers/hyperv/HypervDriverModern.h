@@ -1,5 +1,5 @@
-#ifndef HYPERVDRIVERLEGACY_H
-#define HYPERVDRIVERLEGACY_H
+#ifndef HYPERVDRIVERMODERN_H
+#define HYPERVDRIVERMODERN_H
 
 #include <common/util.h>
 #include <drivers/IDriver.h>
@@ -8,15 +8,16 @@
 #include <drivers/hyperv/HypervDriverCommon.h>
 #include <drivers/hyperv/wmi/WmiHelper.h>
 #include <drivers/hyperv/wmi/classes/common/common.h>
-#include <drivers/hyperv/wmi/classes/v1/v1.h>
+#include <drivers/hyperv/wmi/classes/v2/v2.h>
 
 namespace Drivers {
 namespace Hyperv {
 
-class HypervDriverLegacy : public HypervDriverCommon
+class HypervDriverModern : public HypervDriverCommon
 {
 public:
-  HypervDriverLegacy(Connection::ConnectionPtr conn, SHRDPTR(Wmi::WmiHelper) helper);
+  HypervDriverModern(Connection::ConnectionPtr conn, SHRDPTR(Wmi::WmiHelper) helper);
+  std::string hostGetVersion();
   std::vector<SHRDPTR(Objects::VirtualMachine)> getVirtualMachines();
 
 private:
@@ -25,4 +26,5 @@ private:
 }
 }
 
-#endif /* HYPERVDRIVERLEGACY_H */
+
+#endif /* HYPERVDRIVERMODERN_H */

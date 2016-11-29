@@ -48,13 +48,13 @@ typedef struct _Msvm_ProcessorSettingData {
     Msvm_ProcessorSettingData_Data *data;
 } Msvm_ProcessorSettingData;
 
-#define MSVM_PROCESSORSETTINGDATA_RESOURCE_URI \
+#define V1_MSVM_PROCESSORSETTINGDATA_RESOURCE_URI \
     "http://schemas.microsoft.com/wbem/wsman/1/wmi/root/virtualization/Msvm_ProcessorSettingData"
 
-#define MSVM_PROCESSORSETTINGDATA_CLASSNAME \
+#define V1_MSVM_PROCESSORSETTINGDATA_CLASSNAME \
     "Msvm_ProcessorSettingData"
 
-#define MSVM_PROCESSORSETTINGDATA_WQL_SELECT \
+#define V1_MSVM_PROCESSORSETTINGDATA_WQL_SELECT \
     "select * from Msvm_ProcessorSettingData "
 
 class MsvmProcessorSettingData : public AbstractWmiObject

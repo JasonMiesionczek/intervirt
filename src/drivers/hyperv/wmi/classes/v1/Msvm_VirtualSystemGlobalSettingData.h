@@ -40,13 +40,13 @@ typedef struct _Msvm_VirtualSystemGlobalSettingData {
     Msvm_VirtualSystemGlobalSettingData_Data *data;
 } Msvm_VirtualSystemGlobalSettingData;
 
-#define MSVM_VIRTUALSYSTEMGLOBALSETTINGDATA_RESOURCE_URI \
+#define V1_MSVM_VIRTUALSYSTEMGLOBALSETTINGDATA_RESOURCE_URI \
     "http://schemas.microsoft.com/wbem/wsman/1/wmi/root/virtualization/Msvm_VirtualSystemGlobalSettingData"
 
-#define MSVM_VIRTUALSYSTEMGLOBALSETTINGDATA_CLASSNAME \
+#define V1_MSVM_VIRTUALSYSTEMGLOBALSETTINGDATA_CLASSNAME \
     "Msvm_VirtualSystemGlobalSettingData"
 
-#define MSVM_VIRTUALSYSTEMGLOBALSETTINGDATA_WQL_SELECT \
+#define V1_MSVM_VIRTUALSYSTEMGLOBALSETTINGDATA_WQL_SELECT \
     "select * from Msvm_VirtualSystemGlobalSettingData "
 
 class MsvmVirtualSystemGlobalSettingData : public AbstractWmiObject

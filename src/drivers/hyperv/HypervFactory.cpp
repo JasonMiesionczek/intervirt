@@ -15,6 +15,8 @@ IDriverPtr HypervFactory::create(Connection::ConnectionPtr conn)
     strncpy(hypervVersion, version, 3);
     if (strcmp(hypervVersion, "6.1") == 0) {
         driver = MKSHRD(HypervDriverLegacy, conn, helper);
+    } else {
+        driver = MKSHRD(HypervDriverModern, conn, helper);
     }
 
     return driver;
