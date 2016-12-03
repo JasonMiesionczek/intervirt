@@ -35,3 +35,18 @@ std::string RpcServer::hostGetVersion(const std::string& connID)
     auto driver = this->connectionMap_[connID];
     return driver->hostGetVersion();
 }
+
+Json::Value RpcServer::getAllVirtualMachines(const std::string& connID)
+{
+    auto driver = this->connectionMap_[connID];
+    Json::Value result;
+    auto vms = driver->getVirtualMachines();
+    for (auto&& vm : vms) {
+        Json::Value singleVm;
+        singleVm["name"] = vm->getData().name;
+        singleVm["id"] = vm->getData().id;
+        singleVm["state"] = vm->getState();
+        result.append(singleVm);
+    }
+    return result;
+}

@@ -4,7 +4,6 @@
 #include <objects/HypervisorConnection.h>
 #include <jsonrpccpp/server/connectors/httpserver.h>
 #include <drivers/hyperv/wmi/WmiHelper.h>
-//#include <drivers/hyperv/wmi/classes/common/Win32_OperatingSystem.h>
 #include <drivers/hyperv/HypervFactory.h>
 #include <drivers/esx/EsxFactory.h>
 #include <openwsman/wsman-api.h>
@@ -89,17 +88,25 @@ using namespace Drivers::Hyperv::Wmi;
 using namespace Drivers::Hyperv::Wmi::Classes::Common;
 
 using namespace Drivers::Esx;
+namespace spd = spdlog;
 
 int main()
 {
     //daemonize();
-    std::cout << "Registering drivers..." << std::endl;
+    auto logger = spd::basic_logger_mt("logger", "/var/log/intervirt.log");
+    logger->info("intervirtd starting up");
+
+    auto console = spd::stdout_logger_mt("console", true);
+    console->info("Intervirt System Daemon");
+    console->info("Registering Drivers");
 
     auto manager = MKSHRD(DriverManager); //std::make_shared<DriverManager>();
+    console->info("     hyper-v");
     manager->registerDriver("hyperv", MKSHRD(HypervFactory));
+    console->info("     esx");
     manager->registerDriver("esx", MKSHRD(EsxFactory));
 
-    auto connection = std::make_shared<Connection::HypervisorConnection>("esx://administrator@10.0.22.97", "Datto1000!");
+    auto connection = std::make_shared<Connection::HypervisorConnection>("hyperv://administrator@10.0.22.97", "Datto1000!");
     std::cout << connection->getProtocol() << std::endl;
     std::cout << connection->getHost() << std::endl;
     std::cout << connection->getUsername() << std::endl;

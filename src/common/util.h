@@ -9,6 +9,9 @@
 #include <string.h>
 #include <iomanip>
 #include <sstream>
+#include <spdlog/spdlog.h>
+#include <termios.h>
+#include <unistd.h>
 
 #define MKSHRD(T, PARAMS...) \
     std::make_shared<T>(PARAMS)

@@ -26,6 +26,7 @@ public:
   std::string toString();
 
   VirtualMachineData getData() { return this->data_; }
+  std::string getState();
 
 private:
   VirtualMachineData data_;

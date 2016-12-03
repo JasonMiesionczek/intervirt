@@ -4,11 +4,9 @@ namespace Objects {
 
 VirtualMachine::VirtualMachine(VirtualMachineData data): data_(data) {}
 
-std::string VirtualMachine::toString()
+std::string VirtualMachine::getState()
 {
-    std::stringstream s;
     std::string stateString;
-
     switch(this->data_.state) {
     case VirtualMachineState::RUNNING:
         stateString = "Running";
@@ -26,8 +24,13 @@ std::string VirtualMachine::toString()
         stateString = "Unknown";
         break;
     }
+    return stateString;
+}
 
-    s << this->data_.name << " " << this->data_.id << " " << stateString;
+std::string VirtualMachine::toString()
+{
+    std::stringstream s;
+    s << this->data_.name << " " << this->data_.id << " " << this->getState();
     return s.str();
 }
 }

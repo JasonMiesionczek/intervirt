@@ -8,11 +8,12 @@ namespace Connection {
   class HypervisorConnection
   {
   public:
-    HypervisorConnection(std::string uri, std::string password);
+    HypervisorConnection(std::string uri, std::string password = std::string());
     std::string getProtocol();
     std::string getUsername();
     std::string getPassword();
     std::string getHost();
+    void setPassword(std::string pw) { this->password_ = pw; }
 
   private:
     std::string username_;
