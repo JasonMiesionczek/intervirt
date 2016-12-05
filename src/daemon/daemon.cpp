@@ -90,10 +90,22 @@ using namespace Drivers::Hyperv::Wmi::Classes::Common;
 using namespace Drivers::Esx;
 namespace spd = spdlog;
 
-int main()
+int main(int argc, char** argv)
 {
-    //daemonize();
-    auto logger = spd::basic_logger_mt("logger", "/var/log/intervirt.log");
+    bool daemon = false;
+
+    if (argc > 1) {
+        if (strcmp(argv[1],"-d") == 0) {
+            daemon = true;
+        }
+    }
+    
+    if (daemon) {
+        daemonize();
+    }
+    
+    spd::set_level(spd::level::info);
+    auto logger = spd::basic_logger_mt("logger", "intervirt.log");
     logger->info("intervirtd starting up");
 
     auto console = spd::stdout_logger_mt("console", true);
@@ -106,30 +118,20 @@ int main()
     console->info("     esx");
     manager->registerDriver("esx", MKSHRD(EsxFactory));
 
-    auto connection = std::make_shared<Connection::HypervisorConnection>("hyperv://administrator@10.0.22.97", "Datto1000!");
-    std::cout << connection->getProtocol() << std::endl;
-    std::cout << connection->getHost() << std::endl;
-    std::cout << connection->getUsername() << std::endl;
-    std::cout << connection->getPassword() << std::endl;
-
-    auto factory = manager->get(connection->getProtocol());
-    auto driver = factory->create(connection);
-    auto helper = MKSHRD(WmiHelper, connection);
-
-    auto vms = driver->getVirtualMachines();
-    for (auto&& vm : vms) {
-        std::cout << vm->toString() << std::endl;
-    }
-
     HttpServer httpServer(8383);
     RpcServer rpcServer(httpServer, manager);
     rpcServer.StartListening();
-    getchar();
-    rpcServer.StopListening();
+    if (!daemon) {
+        getchar();
+        rpcServer.StopListening();
+    } else {
+        while (1)
+        {
+            sleep(1);
+        }
+    }
+    
 
     // server->StartListening();
-    // while (1)
-    // {
-    //     sleep(1);
-    // }
+    
 }

@@ -12,6 +12,7 @@
 #include <spdlog/spdlog.h>
 #include <termios.h>
 #include <unistd.h>
+#include <stdio.h>
 
 #define MKSHRD(T, PARAMS...) \
     std::make_shared<T>(PARAMS)

@@ -2,6 +2,8 @@
 #include <docopt/docopt.h>
 
 #include <shell/ShellContext.h>
+#include <shell/CommandManager.h>
+#include <shell/commands/ListCommand.h>
 #include <shell/rpcclient.h>
 #include <objects/HypervisorConnection.h>
 #include <jsonrpccpp/client/connectors/httpclient.h>
@@ -54,14 +56,16 @@ int main(int argc, const char** argv)
     conn->setPassword(pw);
 
     auto context = MKSHRD(ShellContext, conn);
+    auto cmdManager = MKSHRD(CommandManager, context);
+    cmdManager->registerCommand("list", MKSHRD(ListCommand));
 
     HttpClient httpclient("http://localhost:8383");
-    RpcClient c(httpclient);
+    SHRDPTR(RpcClient) c = MKSHRD(RpcClient, httpclient);
     try
     {
-        auto id = c.connect(pw, uri);
-        //std::cout << "connection id: " << id << std::endl;
+        auto id = c->connect(pw, uri);
         context->setConnId(id);
+        context->setClient(c);
     }
     catch (JsonRpcException e)
     {
@@ -69,17 +73,19 @@ int main(int argc, const char** argv)
     }
 
     std::cout << std::endl
-              << "Intervirt Interactive Shell" << std::endl
+              << BOLD(FBLU("Intervirt Interactive Shell")) << std::endl
               << std::endl;
     bool quit = false;
     std::string input;
     
     while (!quit)
     {
-        std::cout << "> ";
+        std::cout << context->getPrompt();
         std::getline(std::cin, input);
         if (input == "quit") {
             quit = true;
+        } else {
+            cmdManager->runCommand(input);
         }
     }
 }
