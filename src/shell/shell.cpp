@@ -5,6 +5,7 @@
 #include <shell/CommandManager.h>
 #include <shell/commands/ListCommand.h>
 #include <shell/rpcclient.h>
+#include <shell/ShellUtil.h>
 #include <objects/HypervisorConnection.h>
 #include <jsonrpccpp/client/connectors/httpclient.h>
 
@@ -14,7 +15,7 @@ static const char USAGE[] =
 R"(ivsh - Intervirt Interactive Shell
 
     Usage:
-      ivsh [--host=<host>] [--uri=<uri>]
+      ivsh [--host=<host>] [--uri=<uri>] [--pw=<pw>]
       ivsh --version
 
     Options:
@@ -22,19 +23,6 @@ R"(ivsh - Intervirt Interactive Shell
 
 )";
 
-std::string capturePassword(std::string prompt)
-{
-    termios oldt;
-    tcgetattr(STDIN_FILENO, &oldt);
-    termios newt = oldt;
-    newt.c_lflag &= ~ECHO;
-    tcsetattr(STDIN_FILENO, TCSANOW, &newt);
-    std::cout << std::endl << prompt;
-    std::string s;
-    std::getline(std::cin, s);
-    tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
-    return s;
-}
 
 int main(int argc, const char** argv)
 {
@@ -45,17 +33,34 @@ int main(int argc, const char** argv)
 
     std::string uri;
     auto findUri = args.find("--uri");
-    if (findUri != args.end()) {
+    if (findUri != args.end() && findUri->second.isString()) {
         uri = findUri->second.asString();
     }
 
-    auto conn = MKSHRD(Connection::HypervisorConnection, uri);
-    std::stringstream ss;
-    ss << "Enter Password [" << conn->getUsername() << "]: ";
-    auto pw = capturePassword(ss.str());
-    conn->setPassword(pw);
+    std::string password;
+    auto findPw = args.find("--pw");
+    if (findPw != args.end() && findPw->second.isString()) {
+        password = findPw->second.asString();
+    }
 
-    auto context = MKSHRD(ShellContext, conn);
+    SHRDPTR(ShellContext) context = nullptr;
+
+    if (uri.length() > 0) {
+        auto conn = MKSHRD(Connection::HypervisorConnection, uri);
+        if (password.length() == 0) {
+            std::stringstream ss;
+            ss << "Enter Password [" << conn->getUsername() << "]: ";
+            password = ShellUtil::capturePassword(ss.str());
+            conn->setPassword(password);
+        } else {
+            conn->setPassword(password);
+        }
+
+        context = MKSHRD(ShellContext, conn);
+    } else {
+        context = MKSHRD(ShellContext, nullptr);
+    }
+
     auto cmdManager = MKSHRD(CommandManager, context);
     cmdManager->registerCommand("list", MKSHRD(ListCommand));
 
@@ -63,8 +68,10 @@ int main(int argc, const char** argv)
     SHRDPTR(RpcClient) c = MKSHRD(RpcClient, httpclient);
     try
     {
-        auto id = c->connect(pw, uri);
-        context->setConnId(id);
+        if (uri.length() > 0) {
+            auto id = c->connect(password, uri);
+            context->setConnId(id);
+        }
         context->setClient(c);
     }
     catch (JsonRpcException e)

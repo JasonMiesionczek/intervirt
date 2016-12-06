@@ -5,3 +5,41 @@
 [2016-12-04 11:29:10.636] [logger] [info] New connection to 10.0.22.97 using driver hyperv with id 5a0e3c5d3bf824fc0c3098df39e1e263
 [2016-12-04 11:32:05.568] [logger] [info] intervirtd starting up
 [2016-12-04 11:40:52.185] [logger] [info] intervirtd starting up
+[2016-12-05 14:31:31.151] [logger] [info] intervirtd starting up
+[2016-12-05 14:31:37.622] [logger] [info] New connection to 10.0.22.97 using driver hyperv with id 5a0e3c5d3bf824fc0c3098df39e1e263
+[2016-12-05 14:31:46.364] [logger] [info] Using existing connection with id: 5a0e3c5d3bf824fc0c3098df39e1e263
+[2016-12-05 14:44:43.276] [logger] [info] Using existing connection with id: 5a0e3c5d3bf824fc0c3098df39e1e263
+[2016-12-05 14:48:50.076] [logger] [info] Using existing connection with id: 5a0e3c5d3bf824fc0c3098df39e1e263
+[2016-12-05 14:50:22.797] [logger] [info] Using existing connection with id: 5a0e3c5d3bf824fc0c3098df39e1e263
+[2016-12-05 14:51:46.737] [logger] [info] Using existing connection with id: 5a0e3c5d3bf824fc0c3098df39e1e263
+[2016-12-05 14:53:30.370] [logger] [info] Using existing connection with id: 5a0e3c5d3bf824fc0c3098df39e1e263
+[2016-12-05 14:54:06.456] [logger] [info] Using existing connection with id: 5a0e3c5d3bf824fc0c3098df39e1e263
+[2016-12-05 16:32:14.028] [logger] [info] Using existing connection with id: 5a0e3c5d3bf824fc0c3098df39e1e263
+[2016-12-05 16:34:05.352] [logger] [info] Using existing connection with id: 5a0e3c5d3bf824fc0c3098df39e1e263
+[2016-12-05 16:36:41.267] [logger] [info] Using existing connection with id: 5a0e3c5d3bf824fc0c3098df39e1e263
+[2016-12-05 16:39:25.968] [logger] [info] Using existing connection with id: 5a0e3c5d3bf824fc0c3098df39e1e263
+[2016-12-05 16:40:18.796] [logger] [info] Using existing connection with id: 5a0e3c5d3bf824fc0c3098df39e1e263
+[2016-12-05 16:43:23.523] [logger] [info] Using existing connection with id: 5a0e3c5d3bf824fc0c3098df39e1e263
+[2016-12-05 17:08:35.188] [logger] [info] Using existing connection with id: 5a0e3c5d3bf824fc0c3098df39e1e263
+[2016-12-05 17:09:49.946] [logger] [info] Using existing connection with id: 5a0e3c5d3bf824fc0c3098df39e1e263
+[2016-12-05 17:13:27.740] [logger] [info] Using existing connection with id: 5a0e3c5d3bf824fc0c3098df39e1e263
+[2016-12-05 17:21:46.642] [logger] [info] Using existing connection with id: 5a0e3c5d3bf824fc0c3098df39e1e263
+[2016-12-05 17:22:42.527] [logger] [info] Using existing connection with id: 5a0e3c5d3bf824fc0c3098df39e1e263
+[2016-12-05 17:23:14.120] [logger] [info] Using existing connection with id: 5a0e3c5d3bf824fc0c3098df39e1e263
+[2016-12-05 17:23:57.003] [logger] [info] Using existing connection with id: 5a0e3c5d3bf824fc0c3098df39e1e263
+[2016-12-05 17:25:20.841] [logger] [info] Using existing connection with id: 5a0e3c5d3bf824fc0c3098df39e1e263
+[2016-12-05 17:29:13.145] [logger] [info] Using existing connection with id: 5a0e3c5d3bf824fc0c3098df39e1e263
+[2016-12-05 17:29:51.033] [logger] [info] Using existing connection with id: 5a0e3c5d3bf824fc0c3098df39e1e263
+[2016-12-05 17:30:35.885] [logger] [info] Using existing connection with id: 5a0e3c5d3bf824fc0c3098df39e1e263
+[2016-12-05 17:34:58.339] [logger] [info] Using existing connection with id: 5a0e3c5d3bf824fc0c3098df39e1e263
+[2016-12-05 17:36:05.327] [logger] [info] Using existing connection with id: 5a0e3c5d3bf824fc0c3098df39e1e263
+[2016-12-05 17:37:31.533] [logger] [info] Using existing connection with id: 5a0e3c5d3bf824fc0c3098df39e1e263
+[2016-12-05 17:38:59.781] [logger] [info] Using existing connection with id: 5a0e3c5d3bf824fc0c3098df39e1e263
+[2016-12-05 17:40:27.034] [logger] [info] Using existing connection with id: 5a0e3c5d3bf824fc0c3098df39e1e263
+[2016-12-05 18:07:01.023] [logger] [info] Using existing connection with id: 5a0e3c5d3bf824fc0c3098df39e1e263
+[2016-12-05 18:07:33.670] [logger] [info] Using existing connection with id: 5a0e3c5d3bf824fc0c3098df39e1e263
+[2016-12-05 18:08:28.724] [logger] [info] Using existing connection with id: 5a0e3c5d3bf824fc0c3098df39e1e263
+[2016-12-05 18:09:40.677] [logger] [info] Using existing connection with id: 5a0e3c5d3bf824fc0c3098df39e1e263
+[2016-12-05 18:10:16.601] [logger] [info] Using existing connection with id: 5a0e3c5d3bf824fc0c3098df39e1e263
+[2016-12-05 18:11:05.022] [logger] [info] Using existing connection with id: 5a0e3c5d3bf824fc0c3098df39e1e263
+[2016-12-05 18:12:04.640] [logger] [info] Using e

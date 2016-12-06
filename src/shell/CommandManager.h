@@ -4,6 +4,8 @@
 #include <common/util.h>
 #include <shell/ShellContext.h>
 #include <shell/colors.h>
+#include <shell/ShellUtil.h>
+#include <objects/HypervisorConnection.h>
 #include "ICommand.h"
 
 class CommandManager

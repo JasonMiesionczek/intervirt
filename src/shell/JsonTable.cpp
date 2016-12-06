@@ -5,9 +5,6 @@ JsonTable::JsonTable(std::map<std::string, std::string> headers, Json::Value dat
 
 void JsonTable::draw()
 {
-    // step 1 calculate max width for each column
-    // step 2 draw header
-    // step 3 draw each data row
     std::map<std::string, size_t> maxWidth;
     for (auto& field : this->headers_) {
         size_t fieldMaxWidth = 0;
@@ -26,10 +23,8 @@ void JsonTable::draw()
     headerTop << "+";
     headers << "|";
     
-    for (auto &mw : maxWidth)
-    {
+    for (auto &mw : maxWidth) {
         headerTop << std::setw(mw.second) << std::setfill('-') << "+";
-        //auto headerLength = mw.second - this->headers_[mw.first].length();
         headers << std::left << std::setw(mw.second-1) << std::setfill(' ') << " "+this->headers_[mw.first] << "|";
     }
     std::cout << headerTop.str() << std::endl;

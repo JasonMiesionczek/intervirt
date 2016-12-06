@@ -24,6 +24,7 @@ void CommandManager::showHelp()
     std::map<std::string, std::vector<std::string>> catMap;
     Color::Modifier lyellow(Color::FG_LIGHT_YELLOW);
     Color::Modifier lcyan(Color::FG_LIGHT_CYAN);
+    Color::Modifier lred(Color::FG_LIGHT_RED);
     Color::Modifier def(Color::FG_DEFAULT);
     Color::Modifier bold(Color::BOLD);
     Color::Modifier reset(Color::RESET);
@@ -48,10 +49,38 @@ void CommandManager::showHelp()
 
 void CommandManager::runCommand(std::string cmd)
 {
+    Color::Modifier lred(Color::FG_LIGHT_RED);
+    Color::Modifier def(Color::FG_DEFAULT);
+    Color::Modifier bold(Color::BOLD);
+    Color::Modifier reset(Color::RESET);
+
     auto splitCmd = split(cmd, ' ');
     
     if (splitCmd[0] == "help") {
         this->showHelp();
+        return;
+    }
+
+    if (splitCmd[0] == "connect") {
+        if (splitCmd.size() > 1) {
+            auto uri = splitCmd[1];
+            auto conn = MKSHRD(Connection::HypervisorConnection, uri);
+            std::stringstream ss;
+            ss << "Enter Password [" << conn->getUsername() << "]: ";
+            auto password = ShellUtil::capturePassword(ss.str());
+            std::cout << std::endl;
+            conn->setPassword(password);
+            this->context_->setConnection(conn);
+            auto id = this->context_->getClient()->connect(password, uri);
+            this->context_->setConnId(id);
+        } else {
+            std::cout << bold << lred << "Missing URI parameter" << reset << def << std::endl;
+        }
+        return;
+    }
+
+    if (this->context_->getConnection() == nullptr) {
+        std::cout << bold << lred << "Not connected" << reset << def << std::endl;
         return;
     }
 

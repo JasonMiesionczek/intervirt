@@ -3,6 +3,7 @@
 
 #include <common/util.h>
 #include <json/json.h>
+#include <shell/colors.h>
 
 class JsonTable
 {
