@@ -87,12 +87,19 @@ int main(int argc, const char** argv)
     
     while (!quit)
     {
-        std::cout << context->getPrompt();
-        std::getline(std::cin, input);
-        if (input == "quit") {
-            quit = true;
-        } else {
-            cmdManager->runCommand(input);
+        try
+        {
+            std::cout << context->getPrompt();
+            std::getline(std::cin, input);
+            if (input == "quit") {
+                quit = true;
+            } else {
+                cmdManager->runCommand(input);
+            }
+        }
+        catch (JsonRpcException e)
+        {
+            std::cerr << e.what() << std::endl;
         }
     }
 }
