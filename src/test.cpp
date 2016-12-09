@@ -295,6 +295,98 @@ void print_node(const xmlpp::Node* node, unsigned int indentation = 0)
   }
 }
 
+class ApiObjectValue
+{
+public:
+    ApiObjectValue(std::string value)
+        : value_(value) {}
+
+    ~ApiObjectValue() = default;
+    ApiObjectValue(const ApiObjectValue& other) = default;
+    ApiObjectValue(ApiObjectValue&& other) = default;
+    ApiObjectValue& operator=(const ApiObjectValue& other) = default;
+    ApiObjectValue& operator=(ApiObjectValue&& other) = default;
+
+    std::string asString() { return this->value_; }
+private:
+    std::string value_;
+};
+
+class ApiObject
+{
+public:
+    ApiObject(std::string name)
+        : name_(name), value_(nullptr){}
+
+    ~ApiObject() = default;
+    ApiObject(const ApiObject& other) = default;
+    ApiObject(ApiObject&& other) = default;
+    ApiObject& operator=(const ApiObject& other) = default;
+    ApiObject& operator=(ApiObject&& other) = default;
+
+    void addChild(std::string name, std::shared_ptr<ApiObject> obj) { this->children_[name] = obj; }
+    void addAttr(std::string name, std::string value) { this->attrs_[name] = std::make_shared<ApiObjectValue>(value); }
+    void setValue(std::string value) { this->value_ = std::make_shared<ApiObjectValue>(value); }
+
+    ApiObject operator>>(const std::string name) {
+        return *this->children_[name];
+    }
+
+    ApiObjectValue operator[](const std::string attr) {
+        return *this->attrs_[attr];
+    }
+
+    ApiObjectValue operator()() {
+        return *this->value_;
+    }
+private:
+    std::string name_;
+    std::map<std::string, std::shared_ptr<ApiObjectValue>> attrs_;
+    std::shared_ptr<ApiObjectValue> value_;
+    std::map<std::string, std::shared_ptr<ApiObject>> children_;
+};
+
+
+ApiObject parseResponse(xmlpp::Node* node, std::shared_ptr<ApiObject> object = nullptr)
+{
+    const xmlpp::ContentNode* nodeContent = dynamic_cast<const xmlpp::ContentNode*>(node);
+    const xmlpp::TextNode* nodeText = dynamic_cast<const xmlpp::TextNode*>(node);
+    const xmlpp::CommentNode* nodeComment = dynamic_cast<const xmlpp::CommentNode*>(node);
+    const xmlpp::Element* nodeElement = dynamic_cast<const xmlpp::Element*>(node);
+
+    auto obj = std::make_shared<ApiObject>(node->get_name());
+
+    if (node->get_name() == "text" && object != nullptr) {
+        object->setValue(nodeContent->get_content());
+        return *object;
+    }
+
+    if (object != nullptr) {
+        object->addChild(node->get_name(), obj);
+    }
+
+    if (nodeElement) {
+        for (auto& attr : nodeElement->get_attributes()) {
+            obj->addAttr(attr->get_name(), attr->get_value());
+        }
+    }
+
+    if (nodeContent) {
+        obj->setValue(nodeContent->get_content());
+    } else if (nodeText) {
+        obj->setValue(nodeText->get_content());
+    } else if (nodeComment) {
+        obj->setValue(nodeComment->get_content());
+    } else {
+        auto children = node->get_children();
+        for (auto& child : children) {
+            parseResponse(child, obj);
+        }
+    }
+
+    return *obj;
+}
+
 int main()
 {
     CURL *handle;
@@ -347,14 +439,12 @@ int main()
     }
     errorCode = curl_easy_getinfo(handle, CURLINFO_RESPONSE_CODE, &responseCode);
     std::cout << responseCode << std::endl;
-    //std::cout << virBufferContentAndReset(&buffer) << std::endl;
     auto content = virBufferContentAndReset(&buffer);
     std::cout << content <<std::endl;
     curl_easy_cleanup(handle);
     curl_slist_free_all(headers);
 
     xmlpp::DomParser parser;
-    //parser.set_validate();
     parser.set_substitute_entities();
     std::stringstream ss;
     ss << content;
@@ -366,17 +456,19 @@ int main()
             node->set_namespace_declaration("http://schemas.xmlsoap.org/soap/envelope/", "soapenv");
             node->set_namespace_declaration("urn:vim25", "vim");
 
-            auto n = (xmlpp::Node*)node;
+            auto n = static_cast<xmlpp::Node*>(node);
             std::map<Glib::ustring, Glib::ustring> nsmap;
             nsmap["soapenv"] = "http://schemas.xmlsoap.org/soap/envelope/";
             nsmap["vim"] = "urn:vim25";
             auto set = n->find("/soapenv:Envelope/soapenv:Body/vim:RetrieveServiceContentResponse", nsmap);
             auto response = set[0];
             auto returnVal = response->find("./vim:returnval", nsmap);
-
-            std::cout << returnVal[0]->get_name() << std::endl;
-            print_node(node);
-
+            //print_node(node);
+            auto object = parseResponse(returnVal[0]);
+            auto about = object >> "about" >> "apiType";
+            auto rootFolder = (object >> "rootFolder")["type"].asString();
+            std::cout << rootFolder << "\n";
+            std::cout << (object >> "about" >> "fullName")().asString() << "\n";
         }
     }
     catch (xmlpp::internal_error e)
@@ -384,4 +476,5 @@ int main()
         std::cerr << e.what() << std::endl;
     }
 
+    VIR_FREE(buffer);
 }
