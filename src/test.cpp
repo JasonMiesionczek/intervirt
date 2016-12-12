@@ -17,6 +17,9 @@
     "</soapenv:Body>\n"                                                       \
     "</soapenv:Envelope>"
 
+#define XML_TAG(name, type) \
+    "<" name "xmlns=\"urn:vim25\" xsi:type=\"xsd:" type "\">"
+
 class ApiObjectValue
 {
 public:
@@ -34,6 +37,21 @@ private:
     std::string value_;
 };
 
+class ApiObject;
+
+class ApiObjectCollection
+{
+public:
+    ApiObjectCollection() {}
+    void add(std::string name, SHRDPTR(ApiObject) obj) {
+        this->children_[name].push_back(obj);
+    }
+
+
+private:
+    std::map<std::string, std::vector<std::shared_ptr<ApiObject>>> children_;
+};
+
 class ApiObject
 {
 public:
@@ -46,12 +64,16 @@ public:
     ApiObject& operator=(const ApiObject& other) = default;
     ApiObject& operator=(ApiObject&& other) = default;
 
-    void addChild(std::string name, std::shared_ptr<ApiObject> obj) { this->children_[name] = obj; }
+    void addChild(std::string name, std::shared_ptr<ApiObject> obj) { this->children_[name].push_back(obj); }
     void addAttr(std::string name, std::string value) { this->attrs_[name] = std::make_shared<ApiObjectValue>(value); }
     void setValue(std::string value) { this->value_ = std::make_shared<ApiObjectValue>(value); }
 
-    ApiObject operator>>(const std::string name) {
-        return *this->children_[name];
+    std::vector<ApiObject> operator>>(const std::string name) {
+        std::vector<ApiObject> result;
+        for (auto& o : this->children_[name]) {
+            result.push_back(*o);
+        }
+        return result;
     }
 
     ApiObjectValue operator[](const std::string attr) {
@@ -65,11 +87,11 @@ private:
     std::string name_;
     std::map<std::string, std::shared_ptr<ApiObjectValue>> attrs_;
     std::shared_ptr<ApiObjectValue> value_;
-    std::map<std::string, std::shared_ptr<ApiObject>> children_;
+    std::map<std::string, std::vector<std::shared_ptr<ApiObject>>> children_;
 };
 
 
-ApiObject parseResponse(xmlpp::Node* node, std::shared_ptr<ApiObject> object = nullptr)
+SHRDPTR(ApiObject) parseResponse(xmlpp::Node* node, std::shared_ptr<ApiObject> object = nullptr)
 {
     const xmlpp::ContentNode* nodeContent = dynamic_cast<const xmlpp::ContentNode*>(node);
     const xmlpp::TextNode* nodeText = dynamic_cast<const xmlpp::TextNode*>(node);
@@ -80,7 +102,7 @@ ApiObject parseResponse(xmlpp::Node* node, std::shared_ptr<ApiObject> object = n
 
     if (node->get_name() == "text" && object != nullptr) {
         object->setValue(nodeContent->get_content());
-        return *object;
+        return object;
     }
 
     if (object != nullptr) {
@@ -106,7 +128,7 @@ ApiObject parseResponse(xmlpp::Node* node, std::shared_ptr<ApiObject> object = n
         }
     }
 
-    return *obj;
+    return obj;
 }
 
 
@@ -119,31 +141,41 @@ typedef struct _requestParam {
         ss << "<" << name << " xmlns=\"urn:vim25\" xsi:type=\"xsd:" << type << "\">" << value << "</" << name << ">";
         return ss.str();
     }
+    std::string toPropSet() {
+        std::stringstream ss;
+        ss << "<pathSet xmlns=\"urn:vim25\" xsi:type=\"xsd:" << type << "\">" << name << "</pathSet>";
+        return ss.str();
+    }
 } RequestParam;
 
 
 using RequestParams = std::vector<RequestParam>;
 
-std::string buildRequest(std::string method, std::string morefType, RequestParams params)
+std::string buildRequest(std::string method, std::string morefType, RequestParams params, std::string rawParams = std::string())
 {
     std::stringstream ss;
     ss << ESX_VI__SOAP__REQUEST_HEADER;
     ss << "<" << method << " xmlns=\"urn:vim25\">";
     ss << "<_this xmlns=\"urn:vim25\" xsi:type=\"ManagedObjectReference\" type=\"" << morefType << "\">";
-    ss << morefType << "</_this>";
+    if (morefType == "PropertyCollector") {
+        ss << "propertyCollector</_this>";
+    } else {
+        ss << morefType << "</_this>";
+    }
     for (auto& param : params) {
         ss << param.toString();
     }
+    ss << rawParams;
     ss << "</" << method << ">";
     ss << ESX_VI__SOAP__REQUEST_FOOTER;
     return ss.str();
 }
 
-ApiObject ExecuteRequest(CURL *client, std::string method, std::string morefType, RequestParams params)
+ApiObject ExecuteRequest(CURL *client, std::string method, std::string morefType, RequestParams params = {}, std::string rawParams = std::string())
 {
-    auto request = buildRequest(method, morefType, params);
+    auto request = buildRequest(method, morefType, params, rawParams);
     std::string content;
-
+    std::cout << request << "\n";
     curl_easy_setopt(client, CURLOPT_POSTFIELDS, request.c_str());
     curl_easy_setopt(client, CURLOPT_POSTFIELDSIZE, strlen(request.c_str()));
     curl_easy_setopt(client, CURLOPT_WRITEDATA, &content);
@@ -160,7 +192,7 @@ ApiObject ExecuteRequest(CURL *client, std::string method, std::string morefType
     parser.set_substitute_entities();
     std::stringstream ss;
     ss << content;
-
+    std::cout << content << "\n";
     try
     {
         parser.parse_stream(ss);
@@ -178,16 +210,25 @@ ApiObject ExecuteRequest(CURL *client, std::string method, std::string morefType
             if (!foundError.empty()) {
                 std::cerr << "Got SOAP fault" << "\n";
                 auto faultObject = parseResponse(foundError[0]);
-                std::cout << (faultObject >> "faultstring")().asString() << "\n";
-                return faultObject;
+                std::cout << (*faultObject >> "faultstring")[0]().asString() << "\n";
+                return *faultObject;
             } else {
                 std::stringstream responseXpath;
                 responseXpath << "/soapenv:Envelope/soapenv:Body/vim:" << method << "Response";
                 auto set = n->find(responseXpath.str(), nsmap);
                 auto response = set[0];
                 auto returnVal = response->find("./vim:returnval", nsmap);
-                auto object = parseResponse(returnVal[0]);
-                return object;
+                if (returnVal.size() > 1) {
+                    ApiObject resultHolder("resultHolder");
+                    for (auto& result : returnVal) {
+                        resultHolder.addChild("result", parseResponse(result));
+                    }
+                    return resultHolder;
+                } else {
+                    auto object = parseResponse(returnVal[0]);
+                    return *object;
+                }
+
             }
         }
     }
@@ -197,6 +238,35 @@ ApiObject ExecuteRequest(CURL *client, std::string method, std::string morefType
     }
     ApiObject errorObject("error");
     return errorObject;
+}
+
+ApiObject RetrieveProperties(CURL *client, std::string type, RequestParam object, RequestParams propSet, RequestParams objSet)
+{
+    std::stringstream params;
+
+    params << "<specSet xmlns=\"urn:vim25\" xsi:type=\"PropertyFilterSpec\">";
+    params << "<propSet xmlns=\"urn:vim25\" xsi:type=\"PropertySpec\">";
+    params << "<type xmlns=\"urn:vim25\" xsi:type=\"xsd:string\">";
+    params << type;
+    params << "</type>";
+    for (auto& pset : propSet) {
+        params << pset.toPropSet();
+    }
+    params << "</propSet>";
+    params << "<objectSet xmlns=\"urn:vim25\" xsi:type=\"ObjectSpec\">";
+    params << "<obj xmlns=\"urn:vim25\" xsi:type=\"ManagedObjectReference\" type=\"" << object.name << "\">";
+    params << object.value << "</obj>";
+
+    params << "<skip xmlns=\"urn:vim25\" xsi:type=\"xsd:boolean\">false</skip>";
+    params << "<selectSet xmlns=\"urn:vim25\" xsi:type=\"TraversalSpec\">";
+    for (auto& oset : objSet) {
+        params << oset.toString();
+    }
+    params << "</selectSet>";
+    params << "</objectSet>";
+    params << "</specSet>";
+
+    return ExecuteRequest(client, "RetrieveProperties", "PropertyCollector", {}, params.str());
 }
 
 
@@ -231,9 +301,11 @@ int main()
     curl_easy_setopt(handle, CURLOPT_ERRORBUFFER, error);
     curl_easy_setopt(handle, CURLOPT_URL, url);
     curl_easy_setopt(handle, CURLOPT_RANGE, NULL);
-
     curl_easy_setopt(handle, CURLOPT_UPLOAD, 0);
-    curl_easy_setopt(handle, CURLOPT_VERBOSE, 1);
+    curl_easy_setopt(handle, CURLOPT_VERBOSE, 0);
+
+    auto serviceContent = ExecuteRequest(handle, "RetrieveServiceContent", "ServiceInstance");
+    std::cout << ((serviceContent >> "about")[0] >> "fullName")[0]().asString() << "\n";
 
     auto req = ExecuteRequest(handle, "Login", "SessionManager",
         {
@@ -241,7 +313,62 @@ int main()
             { .name = "password", .value = "S0uthernDarkn3$$", .type = "string"}
         }
     );
-    std::cout << (req >> "key")().asString() << "\n";
+    std::cout << (req >> "key")[0]().asString() << "\n";
+
+    auto resource = RetrieveProperties(handle, "ComputeResource",{
+         .name = "Folder", .value = "group-h23"
+    }, {
+        { .name = "name", .type = "string"},
+        { .name = "host", .type = "string"},
+        { .name = "resourcePool", .type = "string"}
+    }, {
+        { .name = "name", .type = "string", .value = "folderToChildEntity"},
+        { .name = "type", .type = "string", .value = "Folder"},
+        { .name = "path", .type = "string", .value = "childEntity"},
+        { .name = "skip", .type = "boolean", .value = "false"}
+    });
+
+    std::string hostName;
+    auto domain = (resource >> "obj")[0]().asString();
+    std::cout << domain << "\n";
+    auto propSets = (resource >> "propSet");
+    for (auto& pset : propSets) {
+        auto name = (pset >> "name")[0]().asString();
+        std::cout << name << "\n";
+        if (name == "host") {
+            auto vals = (pset >> "val");
+            for (auto& val : vals) {
+                auto moref = (val >> "ManagedObjectReference");
+                //std::cout << (val >> "ManagedObjectReference")[0]().asString() << "\n";
+                hostName = moref[0]().asString();
+                for (auto& host : moref) {
+                    std::cout << host().asString() << "\n";
+                }
+            }
+        }
+    }
+
+    auto vmRequest = RetrieveProperties(handle, "VirtualMachine", { .name = "HostSystem", .value = hostName }, {
+        { .name = "configStatus", .type = "string"},
+        { .name = "name", .type = "string"},
+        { .name = "config.uuid", .type = "string"},
+        { .name = "runtime.powerState", .type = "string"}
+    }, {
+        { .name = "name", .type = "string", .value = "hostSystemToVm"},
+        { .name = "type", .type = "string", .value = "HostSystem"},
+        { .name = "path", .type = "string", .value = "vm"},
+        { .name = "skip", .type = "boolean", .value = "false"}
+    });
+
+    auto vms = (vmRequest >> "result");
+    for (auto& vm : vms) {
+        std::cout << (vm >> "obj")[0]().asString() << "\n";
+        auto props = (vm >> "propSet");
+        for (auto& prop : props) {
+            std::cout << (prop >> "name")[0]().asString() << "\n";
+            std::cout << (prop >> "val")[0]().asString() << "\n";
+        }
+    }
 
     curl_easy_cleanup(handle);
     curl_slist_free_all(headers);
