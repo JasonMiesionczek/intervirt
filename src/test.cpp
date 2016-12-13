@@ -2,7 +2,7 @@
 #include <curl/curl.h>
 #include <libxml++/libxml++.h>
 
-# define ESX_VI__SOAP__REQUEST_HEADER                                         \
+#define ESX_VI__SOAP__REQUEST_HEADER                                         \
     "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"                            \
     "<soapenv:Envelope\n"                                                     \
     " xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n"          \
@@ -13,7 +13,7 @@
 
 
 
-# define ESX_VI__SOAP__REQUEST_FOOTER                                         \
+#define ESX_VI__SOAP__REQUEST_FOOTER                                         \
     "</soapenv:Body>\n"                                                       \
     "</soapenv:Envelope>"
 
@@ -35,21 +35,6 @@ public:
     std::string asString() { return this->value_; }
 private:
     std::string value_;
-};
-
-class ApiObject;
-
-class ApiObjectCollection
-{
-public:
-    ApiObjectCollection() {}
-    void add(std::string name, SHRDPTR(ApiObject) obj) {
-        this->children_[name].push_back(obj);
-    }
-
-
-private:
-    std::map<std::string, std::vector<std::shared_ptr<ApiObject>>> children_;
 };
 
 class ApiObject
@@ -150,6 +135,7 @@ typedef struct _requestParam {
 
 
 using RequestParams = std::vector<RequestParam>;
+std::string propertyCollector;
 
 std::string buildRequest(std::string method, std::string morefType, RequestParams params, std::string rawParams = std::string())
 {
@@ -158,7 +144,7 @@ std::string buildRequest(std::string method, std::string morefType, RequestParam
     ss << "<" << method << " xmlns=\"urn:vim25\">";
     ss << "<_this xmlns=\"urn:vim25\" xsi:type=\"ManagedObjectReference\" type=\"" << morefType << "\">";
     if (morefType == "PropertyCollector") {
-        ss << "propertyCollector</_this>";
+        ss << propertyCollector << "</_this>";
     } else {
         ss << morefType << "</_this>";
     }
@@ -171,11 +157,31 @@ std::string buildRequest(std::string method, std::string morefType, RequestParam
     return ss.str();
 }
 
-ApiObject ExecuteRequest(CURL *client, std::string method, std::string morefType, RequestParams params = {}, std::string rawParams = std::string())
+std::string buildCustomRequest(std::string method, RequestParam morefType, RequestParams params, std::string rawParams = std::string())
 {
-    auto request = buildRequest(method, morefType, params, rawParams);
+    std::stringstream ss;
+    ss << ESX_VI__SOAP__REQUEST_HEADER;
+    ss << "<" << method << " xmlns=\"urn:vim25\">";
+    ss << "<_this xmlns=\"urn:vim25\" xsi:type=\"ManagedObjectReference\" type=\"" << morefType.type << "\">";
+    ss << morefType.name << "</_this>";
+    for (auto& param : params) {
+        ss << param.toString();
+    }
+    ss << rawParams;
+    ss << "</" << method << ">";
+    ss << ESX_VI__SOAP__REQUEST_FOOTER;
+    return ss.str();
+}
+
+
+ApiObject ExecuteRequest(CURL *client, std::string method, std::string morefType, RequestParams params = {}, std::string rawParams = std::string(), std::string rawRequest = std::string())
+{
+    auto request = rawRequest;
+    if (request.size() == 0) {
+        request = buildRequest(method, morefType, params, rawParams);
+    }
     std::string content;
-    std::cout << request << "\n";
+    //std::cout << request << "\n";
     curl_easy_setopt(client, CURLOPT_POSTFIELDS, request.c_str());
     curl_easy_setopt(client, CURLOPT_POSTFIELDSIZE, strlen(request.c_str()));
     curl_easy_setopt(client, CURLOPT_WRITEDATA, &content);
@@ -192,7 +198,7 @@ ApiObject ExecuteRequest(CURL *client, std::string method, std::string morefType
     parser.set_substitute_entities();
     std::stringstream ss;
     ss << content;
-    std::cout << content << "\n";
+    //std::cout << content << "\n";
     try
     {
         parser.parse_stream(ss);
@@ -269,6 +275,17 @@ ApiObject RetrieveProperties(CURL *client, std::string type, RequestParam object
     return ExecuteRequest(client, "RetrieveProperties", "PropertyCollector", {}, params.str());
 }
 
+ApiObject Login(CURL *handle, std::string username, std::string password, std::string sessionManager)
+{
+    auto request = buildCustomRequest("Login", { .name = sessionManager, .type = "SessionManager"}, {
+        { .name = "userName", .value = username, .type = "string"},
+        { .name = "password", .value = password, .type = "string"}
+    });
+
+    auto req = ExecuteRequest(handle, "Login", "SessionManager", {}, {}, request);
+    return req;
+}
+
 
 static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp)
 {
@@ -306,17 +323,48 @@ int main()
 
     auto serviceContent = ExecuteRequest(handle, "RetrieveServiceContent", "ServiceInstance");
     std::cout << ((serviceContent >> "about")[0] >> "fullName")[0]().asString() << "\n";
+    auto rootFolder = (serviceContent >> "rootFolder")[0]().asString();
+    auto sessionManager = (serviceContent >> "sessionManager")[0]().asString();
+    propertyCollector = (serviceContent >> "propertyCollector")[0]().asString();
+    std::cout << rootFolder << "\n";
+    std::string hostFolder;
 
-    auto req = ExecuteRequest(handle, "Login", "SessionManager",
-        {
-            { .name = "userName", .value = "root", .type = "string"},
-            { .name = "password", .value = "S0uthernDarkn3$$", .type = "string"}
-        }
-    );
+    auto req = Login(handle, "root", "S0uthernDarkn3$$", sessionManager);
     std::cout << (req >> "key")[0]().asString() << "\n";
+    std::cout << "getting root folder" << "\n";
+    auto rootFolderReq = RetrieveProperties(handle, "Folder", { .name = "Folder", .value = rootFolder}, {
+        { .name = "name", .type = "string"}
+    }, {
+        { .name = "name", .type = "string", .value = "folderToChildEntity"},
+        { .name = "type", .type = "string", .value = "Folder"},
+        { .name = "path", .type = "string", .value = "childEntity"},
+        { .name = "skip", .type = "boolean", .value = "false"}
+    });
+    std::cout << "getting datacenters" << "\n";
+    auto dcVal = (((rootFolderReq >> "propSet")[0]) >> "val")[0]().asString();
+    std::cout << dcVal << "\n";
+    if (dcVal == "Datacenters") {
+        // get the datacenter
+        std::cout << "found datacenter" << "\n";
+        auto datacenter = RetrieveProperties(handle, "Datacenter", { .name = "Folder", .value = rootFolder}, {
+            { .name = "name", .type = "string"},
+            { .name = "hostFolder", .type = "string"},
+            { .name = "vmFolder", .type = "string"}
+        }, {
+            { .name = "name", .type = "string", .value = "folderToChildEntity"},
+            { .name = "type", .type = "string", .value = "Folder"},
+            { .name = "path", .type = "string", .value = "childEntity"},
+            { .name = "skip", .type = "boolean", .value = "false"}
+        });
+        hostFolder = (((datacenter >> "propSet")[0]) >> "val")[0]().asString();
+    } else {
+        hostFolder = "ha-folder-host";
+    }
 
+
+    std::cout << "host folder:" << hostFolder << "\n";
     auto resource = RetrieveProperties(handle, "ComputeResource",{
-         .name = "Folder", .value = "group-h23"
+         .name = "Folder", .value = hostFolder
     }, {
         { .name = "name", .type = "string"},
         { .name = "host", .type = "string"},
@@ -329,6 +377,7 @@ int main()
     });
 
     std::string hostName;
+    std::vector<std::string> hostNames;
     auto domain = (resource >> "obj")[0]().asString();
     std::cout << domain << "\n";
     auto propSets = (resource >> "propSet");
@@ -343,32 +392,35 @@ int main()
                 hostName = moref[0]().asString();
                 for (auto& host : moref) {
                     std::cout << host().asString() << "\n";
+                    hostNames.push_back(host().asString());
                 }
             }
         }
     }
 
-    auto vmRequest = RetrieveProperties(handle, "VirtualMachine", { .name = "HostSystem", .value = hostName }, {
-        { .name = "configStatus", .type = "string"},
-        { .name = "name", .type = "string"},
-        { .name = "config.uuid", .type = "string"},
-        { .name = "runtime.powerState", .type = "string"}
-    }, {
-        { .name = "name", .type = "string", .value = "hostSystemToVm"},
-        { .name = "type", .type = "string", .value = "HostSystem"},
-        { .name = "path", .type = "string", .value = "vm"},
-        { .name = "skip", .type = "boolean", .value = "false"}
-    });
+    for (auto& host: hostNames) {
+        auto vmRequest = RetrieveProperties(handle, "VirtualMachine", { .name = "HostSystem", .value = host }, {
+            { .name = "configStatus", .type = "string"},
+            { .name = "name", .type = "string"},
+            { .name = "config.uuid", .type = "string"},
+            { .name = "runtime.powerState", .type = "string"}
+        }, {
+            { .name = "name", .type = "string", .value = "hostSystemToVm"},
+            { .name = "type", .type = "string", .value = "HostSystem"},
+            { .name = "path", .type = "string", .value = "vm"},
+            { .name = "skip", .type = "boolean", .value = "false"}
+        });
 
-    auto vms = (vmRequest >> "result");
-    for (auto& vm : vms) {
-        std::cout << (vm >> "obj")[0]().asString() << "\n";
-        auto props = (vm >> "propSet");
-        for (auto& prop : props) {
-            std::cout << (prop >> "name")[0]().asString() << "\n";
-            std::cout << (prop >> "val")[0]().asString() << "\n";
+        auto vms = (vmRequest >> "result");
+        for (auto& vm : vms) {
+            std::cout << (vm >> "obj")[0]().asString() << "\n";
+            auto props = (vm >> "propSet");
+            for (auto& prop : props) {
+                std::cout << "      " << (prop >> "name")[0]().asString() << ": " << (prop >> "val")[0]().asString() << "\n";
+            }
         }
     }
+
 
     curl_easy_cleanup(handle);
     curl_slist_free_all(headers);
