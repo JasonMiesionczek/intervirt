@@ -1,0 +1,134 @@
+let SessionLoad = 1
+if &cp | set nocp | endif
+let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
+let v:this_session=expand("<sfile>:p")
+silent only
+if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
+  let s:wipebuf = bufnr('%')
+endif
+set shortmess=aoO
+badd +46 ~/code/intervirt/src/drivers/esx/EsxDriver.cpp
+badd +60 ~/code/intervirt/src/drivers/esx/api/EsxApi.hpp
+badd +311 ~/code/intervirt/src/drivers/esx/api/EsxApi.cpp
+badd +1 ~/code/intervirt/src/objects/VirtualMachine.h
+badd +1 ~/code/intervirt/src/drivers/esx/EsxDriver.h
+argglobal
+silent! argdel *
+set lines=60 columns=225
+winpos 0 0
+edit ~/code/intervirt/src/drivers/esx/api/EsxApi.hpp
+set splitbelow splitright
+wincmd _ | wincmd |
+vsplit
+wincmd _ | wincmd |
+vsplit
+2wincmd h
+wincmd w
+wincmd w
+set nosplitbelow
+set nosplitright
+wincmd t
+set winheight=1 winwidth=1
+exe 'vert 1resize ' . ((&columns * 31 + 112) / 225)
+exe 'vert 2resize ' . ((&columns * 152 + 112) / 225)
+exe 'vert 3resize ' . ((&columns * 40 + 112) / 225)
+argglobal
+enew
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal nofen
+wincmd w
+argglobal
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 1 - ((0 * winheight(0) + 28) / 57)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+1
+normal! 0
+wincmd w
+argglobal
+enew
+file ~/code/intervirt/__Tagbar__.1
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal nofen
+wincmd w
+exe 'vert 1resize ' . ((&columns * 31 + 112) / 225)
+exe 'vert 2resize ' . ((&columns * 152 + 112) / 225)
+exe 'vert 3resize ' . ((&columns * 40 + 112) / 225)
+tabedit ~/code/intervirt/src/drivers/esx/EsxDriver.cpp
+set splitbelow splitright
+wincmd _ | wincmd |
+vsplit
+1wincmd h
+wincmd w
+set nosplitbelow
+set nosplitright
+wincmd t
+set winheight=1 winwidth=1
+exe 'vert 1resize ' . ((&columns * 31 + 112) / 225)
+exe 'vert 2resize ' . ((&columns * 193 + 112) / 225)
+argglobal
+enew
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal nofen
+wincmd w
+argglobal
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 34 - ((31 * winheight(0) + 28) / 57)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+34
+normal! 057|
+wincmd w
+2wincmd w
+exe 'vert 1resize ' . ((&columns * 31 + 112) / 225)
+exe 'vert 2resize ' . ((&columns * 193 + 112) / 225)
+tabnext 2
+if exists('s:wipebuf')
+  silent exe 'bwipe ' . s:wipebuf
+endif
+unlet! s:wipebuf
+set winheight=1 winwidth=20 shortmess=filnxtToO
+let s:sx = expand("<sfile>:p:r")."x.vim"
+if file_readable(s:sx)
+  exe "source " . fnameescape(s:sx)
+endif
+let &so = s:so_save | let &siso = s:siso_save
+doautoall SessionLoadPost
+unlet SessionLoad
+" vim: set ft=vim :
