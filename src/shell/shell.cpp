@@ -27,9 +27,6 @@ R"(ivsh - Intervirt Interactive Shell
 int main(int argc, const char** argv)
 {
     std::map<std::string, docopt::value> args = docopt::docopt(USAGE, {argv + 1, argv + argc}, true, "ivsh v0.1.0");
-    // for (auto const& arg : args) {
-    //     std::cout << arg.first << arg.second << std::endl;
-    // }
 
     std::string uri;
     auto findUri = args.find("--uri");
@@ -77,6 +74,7 @@ int main(int argc, const char** argv)
     catch (JsonRpcException e)
     {
         std::cerr << e.what() << std::endl;
+        exit(1);
     }
 
     std::cout << std::endl
@@ -84,15 +82,22 @@ int main(int argc, const char** argv)
               << std::endl;
     bool quit = false;
     std::string input;
-    
+
     while (!quit)
     {
-        std::cout << context->getPrompt();
-        std::getline(std::cin, input);
-        if (input == "quit") {
-            quit = true;
-        } else {
-            cmdManager->runCommand(input);
+        try
+        {
+            std::cout << context->getPrompt();
+            std::getline(std::cin, input);
+            if (input == "quit") {
+                quit = true;
+            } else {
+                cmdManager->runCommand(input);
+            }
+        }
+        catch (JsonRpcException e)
+        {
+            std::cerr << e.what() << std::endl;
         }
     }
 }

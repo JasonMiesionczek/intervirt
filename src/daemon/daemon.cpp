@@ -112,7 +112,7 @@ int main(int argc, char** argv)
     console->info("Intervirt System Daemon");
     console->info("Registering Drivers");
 
-    auto manager = MKSHRD(DriverManager); //std::make_shared<DriverManager>();
+    auto manager = MKSHRD(DriverManager); 
     console->info("     hyper-v");
     manager->registerDriver("hyperv", MKSHRD(HypervFactory));
     console->info("     esx");
@@ -130,8 +130,5 @@ int main(int argc, char** argv)
             sleep(1);
         }
     }
-    
-
-    // server->StartListening();
     
 }
