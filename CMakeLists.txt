@@ -9,7 +9,7 @@ set(GENERAL_WARNING_FLAGS          "-Wall -Wextra -pedantic -Wno-unused-paramete
 set(GENERAL_DEBUG_FLAGS            "-g")
 set(GENERAL_RELEASE_FLAGS          "-mtune=native -DNDEBUG -O2 -fomit-frame-pointer")
 set(GENERAL_COMPILER_FLAGS         "-pipe")
-set(CMAKE_CXX_COMPILER             "/usr/bin/clang++")
+set(CMAKE_CXX_COMPILER             "clang++")
 set(CMAKE_CXX_FLAGS                "-std=c++11 ${GENERAL_WARNING_FLAGS} ${GENERAL_COMPILER_FLAGS} -Wshadow -Weffc++ -fnon-call-exceptions -Wno-c99-extensions")
 set(CMAKE_CXX_FLAGS_DEBUG          "${GENERAL_DEBUG_FLAGS}")
 set(CMAKE_CXX_FLAGS_RELEASE        "${GENERAL_RELEASE_FLAGS}")
