@@ -1,15 +1,14 @@
 #ifndef COMMANDMANAGER_H
 #define COMMANDMANAGER_H
 
-#include <common/util.h>
-#include <shell/ShellContext.h>
-#include <shell/colors.h>
-#include <shell/ShellUtil.h>
-#include <objects/HypervisorConnection.h>
 #include "ICommand.h"
+#include <common/util.h>
+#include <objects/HypervisorConnection.h>
+#include <shell/ShellContext.h>
+#include <shell/ShellUtil.h>
+#include <shell/colors.h>
 
-class CommandManager
-{
+class CommandManager {
 public:
   CommandManager(SHRDPTR(ShellContext) context);
   void registerCommand(std::string name, SHRDPTR(ICommand) cmd);

@@ -52,7 +52,11 @@ std::vector<SHRDPTR(Objects::VirtualMachine)> EsxDriver::getVirtualMachines() {
       vms.push_back(MKSHRD(Objects::VirtualMachine, newVm));
     }
   }
-
+  std::sort(vms.begin(), vms.end(),
+            [](const SHRDPTR(Objects::VirtualMachine) vm1,
+               const SHRDPTR(Objects::VirtualMachine) vm2) {
+              return (vm1->getData().name < vm2->getData().name);
+            });
   return vms;
 }
 } // Esx namespace

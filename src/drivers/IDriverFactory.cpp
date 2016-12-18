@@ -1,5 +1,4 @@
 #include <drivers/IDriverFactory.h>
 namespace Drivers {
-    IDriverFactory::~IDriverFactory() = default;
+IDriverFactory::~IDriverFactory() = default;
 }
-
