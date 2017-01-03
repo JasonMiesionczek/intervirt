@@ -17,7 +17,7 @@ class HypervDriverLegacy : public HypervDriverCommon {
 public:
   HypervDriverLegacy(Connection::ConnectionPtr conn,
                      SHRDPTR(Wmi::WmiHelper) helper);
-  std::vector<SHRDPTR(Objects::VirtualMachine)> getVirtualMachines();
+  virtual std::vector<SHRDPTR(Objects::VirtualMachine)> getVirtualMachines();
 
 private:
   SHRDPTR(Wmi::WmiHelper) helper_;

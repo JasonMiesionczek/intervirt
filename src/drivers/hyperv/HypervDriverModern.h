@@ -17,8 +17,8 @@ class HypervDriverModern : public HypervDriverCommon {
 public:
   HypervDriverModern(Connection::ConnectionPtr conn,
                      SHRDPTR(Wmi::WmiHelper) helper);
-  std::string hostGetVersion();
-  std::vector<SHRDPTR(Objects::VirtualMachine)> getVirtualMachines();
+  virtual std::string hostGetVersion();
+  virtual std::vector<SHRDPTR(Objects::VirtualMachine)> getVirtualMachines();
 
 private:
   SHRDPTR(Wmi::WmiHelper) helper_;

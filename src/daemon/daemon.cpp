@@ -25,17 +25,20 @@
 using namespace jsonrpc;
 using namespace Drivers;
 
-void signal_handler(int sig) {
+void
+signal_handler(int sig)
+{
   switch (sig) {
-  case SIGHUP:
-    break;
-  case SIGTERM:
-    exit(EXIT_SUCCESS);
-    break;
+    case SIGHUP:
+      break;
+    case SIGTERM:
+      exit(EXIT_SUCCESS);
   }
 }
 
-void daemonize() {
+void
+daemonize()
+{
   pid_t pid, sid;
 
   if (getppid() == 1)
@@ -88,7 +91,9 @@ using namespace Drivers::Hyperv::Wmi::Classes::Common;
 using namespace Drivers::Esx;
 namespace spd = spdlog;
 
-int main(int argc, char **argv) {
+int
+main(int argc, char** argv)
+{
   bool daemon = false;
 
   if (argc > 1) {

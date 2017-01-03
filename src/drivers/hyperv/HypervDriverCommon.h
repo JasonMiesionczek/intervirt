@@ -42,7 +42,7 @@ class HypervDriverCommon : public IDriver {
 public:
   HypervDriverCommon(Connection::ConnectionPtr conn,
                      SHRDPTR(Wmi::WmiHelper) helper);
-  std::string hostGetVersion();
+  virtual std::string hostGetVersion();
 
 private:
   SHRDPTR(Wmi::WmiHelper) helper_;

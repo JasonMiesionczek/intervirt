@@ -29,6 +29,7 @@ std::vector<SHRDPTR(Objects::VirtualMachine)> EsxDriver::getVirtualMachines() {
     for (auto &vm : vmResult) {
       Objects::VirtualMachineData newVm;
       std::cout << (vm >> "obj")[0]().asString() << "\n";
+
       auto props = (vm >> "propSet");
       for (auto &prop : props) {
         auto propName = (prop >> "name")[0]().asString();
