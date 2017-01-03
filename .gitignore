@@ -46,3 +46,6 @@ CTestTestfile.cmake
 
 build/
 bin/
+.idea/
+*.db
+cmake-build-debug/
