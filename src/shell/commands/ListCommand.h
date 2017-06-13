@@ -8,9 +8,10 @@
 
 class ListCommand : public ICommand {
 public:
-  ListCommand();
-  virtual void run(SHRDPTR(ShellContext) context,
-                   std::vector<std::string> params);
+    ListCommand();
+
+    virtual void run(SHRDPTR(ShellContext) context,
+                     std::vector<std::string> params);
 };
 
 #endif /* LISTCOMMAND_H */

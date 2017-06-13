@@ -13,14 +13,16 @@
 using namespace Drivers::Hyperv::Wmi::Classes::Common;
 
 namespace Drivers {
-namespace Hyperv {
-class HypervFactory : public IDriverFactory {
-public:
-  HypervFactory() {}
-  virtual ~HypervFactory();
-  IDriverPtr create(Connection::ConnectionPtr conn);
-};
-}
+    namespace Hyperv {
+        class HypervFactory : public IDriverFactory {
+        public:
+            HypervFactory() {}
+
+            virtual ~HypervFactory();
+
+            IDriverPtr create(Connection::ConnectionPtr conn);
+        };
+    }
 }
 
 #endif /* HYPERVFACTORY_H */

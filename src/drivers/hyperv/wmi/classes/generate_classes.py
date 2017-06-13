@@ -9,38 +9,41 @@ header_template = """
 #include <drivers/hyperv/wmi/AbstractWmiObject.h>
 
 namespace Drivers {
-namespace Hyperv {
-namespace Wmi {
-namespace Classes {
-namespace <Ns> {
-typedef struct _<cls>_Data {
+    namespace Hyperv {
+        namespace Wmi {
+            namespace Classes {
+                namespace <Ns> {
+                    typedef struct _<cls>_Data {
 <struct_fields>
-} <cls>_Data;
-SER_DECLARE_TYPE(<cls>_Data);
-typedef struct _<cls> {
-    XmlSerializerInfo *serializerInfo;
-    <cls>_Data *data;
-} <cls>;
+                    } <cls>_Data;
+                    
+                    SER_DECLARE_TYPE(<cls>_Data);
+                    
+                    typedef struct _<cls> {
+                        XmlSerializerInfo *serializerInfo;
+                        <cls>_Data *data;
+                    } <cls>;
+                    
+                    #define <NS>_<CLS>_RESOURCE_URI \\
+                        "<uri>"
+                    
+                    #define <NS>_<CLS>_CLASSNAME \\
+                        "<cls>"
+                    
+                    #define <NS>_<CLS>_WQL_SELECT \\
+                        "select * from <cls> "
+                    
+                    class <clsSmall>Meta : public AbstractWmiObject
+                    {
+                    public:
+                      <clsSmall>Meta();
+                    };
+                }
+            }
+        }
+    }
+}
 
-#define <NS>_<CLS>_RESOURCE_URI \\
-    "<uri>"
-
-#define <NS>_<CLS>_CLASSNAME \\
-    "<cls>"
-
-#define <NS>_<CLS>_WQL_SELECT \\
-    "select * from <cls> "
-
-class <clsSmall> : public AbstractWmiObject
-{
-public:
-  <clsSmall>();
-};
-}
-}
-}
-}
-}
 #endif /* <NS>_<CLS>_H */
 
 """
@@ -49,29 +52,28 @@ body_template = """
 #include "<cls>.h"
 
 namespace Drivers {
-namespace Hyperv {
-namespace Wmi {
-namespace Classes {
-namespace <Ns> {
+    namespace Hyperv {
+        namespace Wmi {
+            namespace Classes {
+                namespace <Ns> {
 
-
-SER_START_ITEMS(<cls>_Data)
+                    SER_START_ITEMS(<cls>_Data)
 <fields>
-SER_END_ITEMS(<cls>_Data);
+                    SER_END_ITEMS(<cls>_Data);
+                    
+                    <clsSmall>Meta::<clsSmall>Meta()
+                            :AbstractWmiObject(
+                                <NS2>_<CLS>_WQL_SELECT,
+                                <NS2>_<CLS>_CLASSNAME,
+                                "<NS>",
+                                <NS2>_<CLS>_RESOURCE_URI,
+                                <cls>_Data_TypeInfo
+                            ) {}
 
-<clsSmall>::<clsSmall>()
-        :AbstractWmiObject(
-            <NS2>_<CLS>_WQL_SELECT,
-            <NS2>_<CLS>_CLASSNAME,
-            "<NS>",
-            <NS2>_<CLS>_RESOURCE_URI,
-            <cls>_Data_TypeInfo
-        ) {}
-
-}
-}
-}
-}
+                }
+            }
+        }
+    }
 }
 """
 
@@ -205,16 +207,16 @@ class Field:
 
     def gen_struct_entry(self):
         if self.is_array:
-            return "    XML_TYPE_DYN_ARRAY %s;\n" % self.name
+            return "                        XML_TYPE_DYN_ARRAY %s;\n" % self.name
         else:
-            return "    XML_TYPE_%s %s;\n" % (Field.typemap[self.type], self.name)
+            return "                        XML_TYPE_%s %s;\n" % (Field.typemap[self.type], self.name)
 
     def gen_xml_entry(self):
         if self.is_array:
-            return "    SER_NS_DYN_ARRAY(%s_%s_RESOURCE_URI, \"%s\", 0, 0, %s),\n" \
+            return "                        SER_NS_DYN_ARRAY(%s_%s_RESOURCE_URI, \"%s\", 0, 0, %s),\n" \
                     % (self.cls.namespace.name.upper(), self.cls.name.upper(), self.name, self.type)
         else:
-            return "    SER_NS_%s(%s_%s_RESOURCE_URI, \"%s\", 1),\n" \
+            return "                        SER_NS_%s(%s_%s_RESOURCE_URI, \"%s\", 1),\n" \
                     % (Field.typemap[self.type], self.cls.namespace.name.upper(), self.cls.name.upper(), self.name)
 
 

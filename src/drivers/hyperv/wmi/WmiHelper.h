@@ -14,46 +14,50 @@ namespace Drivers {
                 XML_TYPE_PTR data;
             } WmiObject;
 
-            class WmiHelper
-            {
+            class WmiHelper {
             public:
-              WmiHelper(Connection::ConnectionPtr conn);
-              ~WmiHelper();
-              template<typename T>
-              void FreeResults(std::vector<T*> results) {
+                WmiHelper(Connection::ConnectionPtr conn);
+
+                ~WmiHelper();
+
+                template<typename T>
+                void FreeResults(std::vector<T *> results) {
                     auto context = wsmc_get_serialization_context(this->client_);
                     for (auto o : results) {
                         ws_serializer_free_mem(context, o->data, o->serializerInfo);
                     }
-              }
+                }
 
-              template<typename T, typename O>
-              std::vector<T*> Enumerate() {
-                  auto source = MKSHRD(O);
-                  auto query_string = source->getQueryString();
+                template<typename T, typename O>
+                std::vector<T *> Enumerate() {
+                    auto source = MKSHRD(O);
+                    auto query_string = source->getQueryString();
 
-                  return this->Enumerate<T, O>(query_string, source);
-              }
+                    return this->Enumerate<T, O>(query_string, source);
+                }
 
-              template<typename T, typename O>
-              std::vector<T*> Enumerate(std::string query_string, SHRDPTR(O) source = MKSHRD(O)) {
-                  auto resourceUri = source->getResourceUri();
-                  auto className = source->getClassName();
-                  auto ns = source->getNamespace();
-                  auto info = source->getSerializerInfo();
-                  auto result = this->GenericEnumerate(query_string, resourceUri, className, ns, info);
-                  std::vector<WmiObject *>::size_type numObjects = result.size();
-                  std::vector<T*> realObjects;
-                  realObjects.reserve(numObjects);
-                  for (std::vector<WmiObject *>::size_type i = 0; i < numObjects; ++i) {
-                      realObjects.push_back((T*)result[i]);
-                  }
-                  return realObjects;
-              }
+                template<typename T, typename O>
+                std::vector<T *> Enumerate(std::string query_string, SHRDPTR(O) source = MKSHRD(O)) {
+                    auto resourceUri = source->getResourceUri();
+                    auto className = source->getClassName();
+                    auto ns = source->getNamespace();
+                    auto info = source->getSerializerInfo();
+                    auto result = this->GenericEnumerate(query_string, resourceUri, className, ns, info);
+                    std::vector<WmiObject *>::size_type numObjects = result.size();
+                    std::vector<T *> realObjects;
+                    realObjects.reserve(numObjects);
+                    for (std::vector<WmiObject *>::size_type i = 0; i < numObjects; ++i) {
+                        realObjects.push_back((T *) result[i]);
+                    }
+                    return realObjects;
+                }
+
             private:
-              WsManClient *client_;
-              
-              std::vector<WmiObject *> GenericEnumerate(std::string query_string, std::string resourceUri, std::string className, std::string ns, XmlSerializerInfo *serializerInfo);
+                WsManClient *client_;
+
+                std::vector<WmiObject *>
+                GenericEnumerate(std::string query_string, std::string resourceUri, std::string className,
+                                 std::string ns, XmlSerializerInfo *serializerInfo);
             };
         } // namespace Wmi
     } // namespace Hyperv

@@ -8,18 +8,20 @@
 #include <objects/VirtualMachine.h>
 
 namespace Drivers {
-namespace Esx {
+    namespace Esx {
 
-class EsxDriver : public IDriver {
-public:
-  EsxDriver(Connection::ConnectionPtr conn);
-  virtual std::string hostGetVersion();
-  virtual std::vector<SHRDPTR(Objects::VirtualMachine)> getVirtualMachines();
+        class EsxDriver : public IDriver {
+        public:
+            EsxDriver(Connection::ConnectionPtr conn);
 
-private:
-  SHRDPTR(EsxApi) api_;
-};
-}
+            virtual std::string hostGetVersion();
+
+            virtual std::vector<SHRDPTR(Objects::VirtualMachine) > getVirtualMachines();
+
+        private:
+            SHRDPTR(EsxApi) api_;
+        };
+    }
 }
 
 #endif /* ESXDRIVER_H */

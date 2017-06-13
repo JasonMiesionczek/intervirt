@@ -28,21 +28,23 @@
   "</soapenv:Envelope>"
 
 typedef struct _requestParam {
-  std::string value;
-  std::string name;
-  std::string type;
-  std::string toString() {
-    std::stringstream ss;
-    ss << "<" << name << " xmlns=\"urn:vim25\" xsi:type=\"xsd:" << type << "\">"
-       << value << "</" << name << ">";
-    return ss.str();
-  }
-  std::string toPropSet() {
-    std::stringstream ss;
-    ss << "<pathSet xmlns=\"urn:vim25\" xsi:type=\"xsd:" << type << "\">"
-       << name << "</pathSet>";
-    return ss.str();
-  }
+    std::string value;
+    std::string name;
+    std::string type;
+
+    std::string toString() {
+        std::stringstream ss;
+        ss << "<" << name << " xmlns=\"urn:vim25\" xsi:type=\"xsd:" << type << "\">"
+           << value << "</" << name << ">";
+        return ss.str();
+    }
+
+    std::string toPropSet() {
+        std::stringstream ss;
+        ss << "<pathSet xmlns=\"urn:vim25\" xsi:type=\"xsd:" << type << "\">"
+           << name << "</pathSet>";
+        return ss.str();
+    }
 } RequestParam;
 
 using RequestParams = std::vector<RequestParam>;
@@ -50,45 +52,56 @@ using namespace Drivers::Esx::Api;
 
 class EsxApi {
 public:
-  EsxApi(std::string url);
-  ~EsxApi();
-  EsxApi(const EsxApi &other) = default;
-  EsxApi(EsxApi &&other) = default;
-  EsxApi &operator=(const EsxApi &other) = default;
-  EsxApi &operator=(EsxApi &&other) = default;
+    EsxApi(std::string url);
 
-  std::vector<std::string> getHostnames() { return this->hostNames; }
+    ~EsxApi();
 
-  std::string buildCustomRequest(std::string method, RequestParam morefType,
-                                 RequestParams params,
-                                 std::string rawParams = std::string());
-  ApiObject RetrieveProperties(std::string type, RequestParam object,
-                               RequestParams propSet, RequestParams objSet);
-  ApiObject ExecuteRequest(std::string method, std::string morefType,
-                           RequestParams params = {},
-                           std::string rawParams = std::string(),
-                           std::string rawRequest = std::string());
-  ApiObject Login(std::string username, std::string password);
-  std::string getVersion() { return this->version; }
+    EsxApi(const EsxApi &other) = default;
+
+    EsxApi(EsxApi &&other) = default;
+
+    EsxApi &operator=(const EsxApi &other) = default;
+
+    EsxApi &operator=(EsxApi &&other) = default;
+
+    std::vector<std::string> getHostnames() { return this->hostNames; }
+
+    std::string buildCustomRequest(std::string method, RequestParam morefType,
+                                   RequestParams params,
+                                   std::string rawParams = std::string());
+
+    ApiObject RetrieveProperties(std::string type, RequestParam object,
+                                 RequestParams propSet, RequestParams objSet);
+
+    ApiObject ExecuteRequest(std::string method, std::string morefType,
+                             RequestParams params = {},
+                             std::string rawParams = std::string(),
+                             std::string rawRequest = std::string());
+
+    ApiObject Login(std::string username, std::string password);
+
+    std::string getVersion() { return this->version; }
 
 protected:
-  std::string buildRequest(std::string method, std::string morefType,
-                           RequestParams params,
-                           std::string rawParams = std::string());
-  ApiObject getServiceContext();
+    std::string buildRequest(std::string method, std::string morefType,
+                             RequestParams params,
+                             std::string rawParams = std::string());
 
-  void determineHostFolder();
-  void determineHosts();
+    ApiObject getServiceContext();
+
+    void determineHostFolder();
+
+    void determineHosts();
 
 private:
-  CURL *client;
-  struct curl_slist *headers;
-  std::string propertyCollector;
-  std::string sessionManager;
-  std::string rootFolder;
-  std::string hostFolder;
-  std::string version;
-  std::vector<std::string> hostNames;
+    CURL *client;
+    struct curl_slist *headers;
+    std::string propertyCollector;
+    std::string sessionManager;
+    std::string rootFolder;
+    std::string hostFolder;
+    std::string version;
+    std::vector<std::string> hostNames;
 };
 
 #endif /* EsxApi_hpp */

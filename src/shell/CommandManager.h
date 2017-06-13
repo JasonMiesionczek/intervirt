@@ -10,15 +10,17 @@
 
 class CommandManager {
 public:
-  CommandManager(SHRDPTR(ShellContext) context);
-  void registerCommand(std::string name, SHRDPTR(ICommand) cmd);
-  void runCommand(std::string cmd);
+    CommandManager(SHRDPTR(ShellContext) context);
+
+    void registerCommand(std::string name, SHRDPTR(ICommand) cmd);
+
+    void runCommand(std::string cmd);
 
 private:
-  void showHelp();
+    void showHelp();
 
-  std::map<std::string, SHRDPTR(ICommand)> commands_;
-  SHRDPTR(ShellContext) context_;
+    std::map<std::string, SHRDPTR(ICommand) > commands_;
+    SHRDPTR(ShellContext) context_;
 };
 
 #endif /* COMMANDMANAGER_H */

@@ -8,15 +8,17 @@
 #include <string>
 
 namespace Drivers {
-class DriverManager {
-public:
-  DriverManager();
-  bool registerDriver(std::string name, IDriverFactoryPtr factory);
-  IDriverFactoryPtr get(std::string driver);
+    class DriverManager {
+    public:
+        DriverManager();
 
-private:
-  std::map<std::string, IDriverFactoryPtr> factoryMap;
-};
+        bool registerDriver(std::string name, IDriverFactoryPtr factory);
+
+        IDriverFactoryPtr get(std::string driver);
+
+    private:
+        std::map<std::string, IDriverFactoryPtr> factoryMap;
+    };
 }
 
 #endif /* DRIVERMANAGER_H */

@@ -9,7 +9,7 @@
 #include "ApiObjectValue.hpp"
 
 namespace Drivers {
-namespace Esx {
-namespace Api {}
-}
+    namespace Esx {
+        namespace Api {}
+    }
 }

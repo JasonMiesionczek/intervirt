@@ -11,18 +11,19 @@
 #include <objects/VirtualMachine.h>
 
 namespace Drivers {
-namespace Hyperv {
+    namespace Hyperv {
 
-class HypervDriverLegacy : public HypervDriverCommon {
-public:
-  HypervDriverLegacy(Connection::ConnectionPtr conn,
-                     SHRDPTR(Wmi::WmiHelper) helper);
-  virtual std::vector<SHRDPTR(Objects::VirtualMachine)> getVirtualMachines();
+        class HypervDriverLegacy : public HypervDriverCommon {
+        public:
+            HypervDriverLegacy(Connection::ConnectionPtr conn,
+                               SHRDPTR(Wmi::WmiHelper) helper);
 
-private:
-  SHRDPTR(Wmi::WmiHelper) helper_;
-};
-}
+            virtual std::vector<SHRDPTR(Objects::VirtualMachine) > getVirtualMachines();
+
+        private:
+            SHRDPTR(Wmi::WmiHelper) helper_;
+        };
+    }
 }
 
 #endif /* HYPERVDRIVERLEGACY_H */

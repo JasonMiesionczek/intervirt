@@ -8,15 +8,17 @@
 #include <objects/HypervisorConnection.h>
 
 namespace Drivers {
-namespace Esx {
+    namespace Esx {
 
-class EsxFactory : public IDriverFactory {
-public:
-  EsxFactory() {}
-  virtual ~EsxFactory();
-  IDriverPtr create(Connection::ConnectionPtr conn);
-};
-}
+        class EsxFactory : public IDriverFactory {
+        public:
+            EsxFactory() {}
+
+            virtual ~EsxFactory();
+
+            IDriverPtr create(Connection::ConnectionPtr conn);
+        };
+    }
 }
 
 #endif /* ESXFACTORY_H */

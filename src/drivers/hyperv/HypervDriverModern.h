@@ -11,19 +11,21 @@
 #include <objects/VirtualMachine.h>
 
 namespace Drivers {
-namespace Hyperv {
+    namespace Hyperv {
 
-class HypervDriverModern : public HypervDriverCommon {
-public:
-  HypervDriverModern(Connection::ConnectionPtr conn,
-                     SHRDPTR(Wmi::WmiHelper) helper);
-  virtual std::string hostGetVersion();
-  virtual std::vector<SHRDPTR(Objects::VirtualMachine)> getVirtualMachines();
+        class HypervDriverModern : public HypervDriverCommon {
+        public:
+            HypervDriverModern(Connection::ConnectionPtr conn,
+                               SHRDPTR(Wmi::WmiHelper) helper);
 
-private:
-  SHRDPTR(Wmi::WmiHelper) helper_;
-};
-}
+            virtual std::string hostGetVersion();
+
+            virtual std::vector<SHRDPTR(Objects::VirtualMachine) > getVirtualMachines();
+
+        private:
+            SHRDPTR(Wmi::WmiHelper) helper_;
+        };
+    }
 }
 
 #endif /* HYPERVDRIVERMODERN_H */

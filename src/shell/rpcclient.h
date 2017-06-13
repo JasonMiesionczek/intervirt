@@ -9,47 +9,49 @@
 
 class RpcClient : public jsonrpc::Client {
 public:
-  RpcClient(jsonrpc::IClientConnector &conn,
-            jsonrpc::clientVersion_t type = jsonrpc::JSONRPC_CLIENT_V2)
-      : jsonrpc::Client(conn, type) {}
+    RpcClient(jsonrpc::IClientConnector &conn,
+              jsonrpc::clientVersion_t type = jsonrpc::JSONRPC_CLIENT_V2)
+            : jsonrpc::Client(conn, type) {}
 
-  std::string connect(const std::string &password,
-                      const std::string &uri) throw(jsonrpc::JsonRpcException) {
-    Json::Value p;
-    p["password"] = password;
-    p["uri"] = uri;
-    Json::Value result = this->CallMethod("connect", p);
-    if (result.isString())
-      return result.asString();
-    else
-      throw jsonrpc::JsonRpcException(
-          jsonrpc::Errors::ERROR_CLIENT_INVALID_RESPONSE,
-          result.toStyledString());
-  }
-  std::string
-  hostGetVersion(const std::string &connID) throw(jsonrpc::JsonRpcException) {
-    Json::Value p;
-    p["connID"] = connID;
-    Json::Value result = this->CallMethod("hostGetVersion", p);
-    if (result.isString())
-      return result.asString();
-    else
-      throw jsonrpc::JsonRpcException(
-          jsonrpc::Errors::ERROR_CLIENT_INVALID_RESPONSE,
-          result.toStyledString());
-  }
-  Json::Value getAllVirtualMachines(const std::string &connID) throw(
-      jsonrpc::JsonRpcException) {
-    Json::Value p;
-    p["connID"] = connID;
-    Json::Value result = this->CallMethod("getAllVirtualMachines", p);
-    if (result.isArray())
-      return result;
-    else
-      throw jsonrpc::JsonRpcException(
-          jsonrpc::Errors::ERROR_CLIENT_INVALID_RESPONSE,
-          result.toStyledString());
-  }
+    std::string connect(const std::string &password,
+                        const std::string &uri) throw(jsonrpc::JsonRpcException) {
+        Json::Value p;
+        p["password"] = password;
+        p["uri"] = uri;
+        Json::Value result = this->CallMethod("connect", p);
+        if (result.isString())
+            return result.asString();
+        else
+            throw jsonrpc::JsonRpcException(
+                    jsonrpc::Errors::ERROR_CLIENT_INVALID_RESPONSE,
+                    result.toStyledString());
+    }
+
+    std::string
+    hostGetVersion(const std::string &connID) throw(jsonrpc::JsonRpcException) {
+        Json::Value p;
+        p["connID"] = connID;
+        Json::Value result = this->CallMethod("hostGetVersion", p);
+        if (result.isString())
+            return result.asString();
+        else
+            throw jsonrpc::JsonRpcException(
+                    jsonrpc::Errors::ERROR_CLIENT_INVALID_RESPONSE,
+                    result.toStyledString());
+    }
+
+    Json::Value getAllVirtualMachines(const std::string &connID) throw(
+    jsonrpc::JsonRpcException) {
+        Json::Value p;
+        p["connID"] = connID;
+        Json::Value result = this->CallMethod("getAllVirtualMachines", p);
+        if (result.isArray())
+            return result;
+        else
+            throw jsonrpc::JsonRpcException(
+                    jsonrpc::Errors::ERROR_CLIENT_INVALID_RESPONSE,
+                    result.toStyledString());
+    }
 };
 
 #endif // JSONRPC_CPP_STUB_RPCCLIENT_H_

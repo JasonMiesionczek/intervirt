@@ -12,26 +12,30 @@
 #include <common/util.h>
 
 namespace Drivers {
-namespace Esx {
-namespace Api {
+    namespace Esx {
+        namespace Api {
 
-class ApiObjectValue {
-public:
-  ApiObjectValue(std::string value) : value_(value) {}
+            class ApiObjectValue {
+            public:
+                ApiObjectValue(std::string value) : value_(value) {}
 
-  ~ApiObjectValue() = default;
-  ApiObjectValue(const ApiObjectValue &other) = default;
-  ApiObjectValue(ApiObjectValue &&other) = default;
-  ApiObjectValue &operator=(const ApiObjectValue &other) = default;
-  ApiObjectValue &operator=(ApiObjectValue &&other) = default;
+                ~ApiObjectValue() = default;
 
-  std::string asString() { return this->value_; }
+                ApiObjectValue(const ApiObjectValue &other) = default;
 
-private:
-  std::string value_;
-};
-}
-}
+                ApiObjectValue(ApiObjectValue &&other) = default;
+
+                ApiObjectValue &operator=(const ApiObjectValue &other) = default;
+
+                ApiObjectValue &operator=(ApiObjectValue &&other) = default;
+
+                std::string asString() { return this->value_; }
+
+            private:
+                std::string value_;
+            };
+        }
+    }
 }
 
 #endif /* ApiObjectValue_hpp */

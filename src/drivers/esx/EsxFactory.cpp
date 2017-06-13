@@ -1,12 +1,12 @@
 #include "EsxFactory.h"
 
 namespace Drivers {
-namespace Esx {
+    namespace Esx {
 
-EsxFactory::~EsxFactory() {}
+        EsxFactory::~EsxFactory() {}
 
-IDriverPtr EsxFactory::create(Connection::ConnectionPtr conn) {
-  return MKSHRD(EsxDriver, conn);
-}
-}
+        IDriverPtr EsxFactory::create(Connection::ConnectionPtr conn) {
+            return MKSHRD(EsxDriver, conn);
+        }
+    }
 }
