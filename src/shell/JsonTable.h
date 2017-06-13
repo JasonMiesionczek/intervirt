@@ -5,8 +5,7 @@
 #include <json/json.h>
 #include <shell/colors.h>
 
-class JsonTable
-{
+class JsonTable {
 public:
   JsonTable(std::map<std::string, std::string> headers, Json::Value data);
   void draw();

@@ -13,8 +13,8 @@ namespace Esx {
 class EsxDriver : public IDriver {
 public:
   EsxDriver(Connection::ConnectionPtr conn);
-  std::string hostGetVersion();
-  std::vector<SHRDPTR(Objects::VirtualMachine)> getVirtualMachines();
+  virtual std::string hostGetVersion();
+  virtual std::vector<SHRDPTR(Objects::VirtualMachine)> getVirtualMachines();
 
 private:
   SHRDPTR(EsxApi) api_;

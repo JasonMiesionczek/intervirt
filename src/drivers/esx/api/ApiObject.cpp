@@ -10,8 +10,6 @@
 
 namespace Drivers {
 namespace Esx {
-namespace Api {
-
-
-
-}}}
+namespace Api {}
+}
+}

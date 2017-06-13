@@ -69,13 +69,14 @@ public:
                            std::string rawParams = std::string(),
                            std::string rawRequest = std::string());
   ApiObject Login(std::string username, std::string password);
+  std::string getVersion() { return this->version; }
 
 protected:
   std::string buildRequest(std::string method, std::string morefType,
                            RequestParams params,
                            std::string rawParams = std::string());
   ApiObject getServiceContext();
-  std::string getVersion() { return this->version; }
+
   void determineHostFolder();
   void determineHosts();
 

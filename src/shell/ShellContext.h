@@ -2,12 +2,11 @@
 #define SHELLCONTEXT_H
 
 #include <common/util.h>
-#include <shell/rpcclient.h>
-#include <shell/colors.h>
 #include <objects/HypervisorConnection.h>
+#include <shell/colors.h>
+#include <shell/rpcclient.h>
 
-class ShellContext
-{
+class ShellContext {
 public:
   ShellContext(Connection::ConnectionPtr conn = nullptr);
   void setConnId(std::string id) { this->connId_ = id; }

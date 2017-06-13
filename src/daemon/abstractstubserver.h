@@ -7,31 +7,46 @@
 
 #include <jsonrpccpp/server.h>
 
-class AbstractStubServer : public jsonrpc::AbstractServer<AbstractStubServer>
-{
-    public:
-        AbstractStubServer(jsonrpc::AbstractServerConnector &conn, jsonrpc::serverVersion_t type = jsonrpc::JSONRPC_SERVER_V2) : jsonrpc::AbstractServer<AbstractStubServer>(conn, type)
-        {
-            this->bindAndAddMethod(jsonrpc::Procedure("connect", jsonrpc::PARAMS_BY_NAME, jsonrpc::JSON_STRING, "password",jsonrpc::JSON_STRING,"uri",jsonrpc::JSON_STRING, NULL), &AbstractStubServer::connectI);
-            this->bindAndAddMethod(jsonrpc::Procedure("hostGetVersion", jsonrpc::PARAMS_BY_NAME, jsonrpc::JSON_STRING, "connID",jsonrpc::JSON_STRING, NULL), &AbstractStubServer::hostGetVersionI);
-            this->bindAndAddMethod(jsonrpc::Procedure("getAllVirtualMachines", jsonrpc::PARAMS_BY_NAME, jsonrpc::JSON_ARRAY, "connID",jsonrpc::JSON_STRING, NULL), &AbstractStubServer::getAllVirtualMachinesI);
-        }
+class AbstractStubServer : public jsonrpc::AbstractServer<AbstractStubServer> {
+public:
+  AbstractStubServer(jsonrpc::AbstractServerConnector &conn,
+                     jsonrpc::serverVersion_t type = jsonrpc::JSONRPC_SERVER_V2)
+      : jsonrpc::AbstractServer<AbstractStubServer>(conn, type) {
+    this->bindAndAddMethod(jsonrpc::Procedure("connect",
+                                              jsonrpc::PARAMS_BY_NAME,
+                                              jsonrpc::JSON_STRING, "password",
+                                              jsonrpc::JSON_STRING, "uri",
+                                              jsonrpc::JSON_STRING, NULL),
+                           &AbstractStubServer::connectI);
+    this->bindAndAddMethod(jsonrpc::Procedure("hostGetVersion",
+                                              jsonrpc::PARAMS_BY_NAME,
+                                              jsonrpc::JSON_STRING, "connID",
+                                              jsonrpc::JSON_STRING, NULL),
+                           &AbstractStubServer::hostGetVersionI);
+    this->bindAndAddMethod(jsonrpc::Procedure("getAllVirtualMachines",
+                                              jsonrpc::PARAMS_BY_NAME,
+                                              jsonrpc::JSON_ARRAY, "connID",
+                                              jsonrpc::JSON_STRING, NULL),
+                           &AbstractStubServer::getAllVirtualMachinesI);
+  }
 
-        inline virtual void connectI(const Json::Value &request, Json::Value &response)
-        {
-            response = this->connect(request["password"].asString(), request["uri"].asString());
-        }
-        inline virtual void hostGetVersionI(const Json::Value &request, Json::Value &response)
-        {
-            response = this->hostGetVersion(request["connID"].asString());
-        }
-        inline virtual void getAllVirtualMachinesI(const Json::Value &request, Json::Value &response)
-        {
-            response = this->getAllVirtualMachines(request["connID"].asString());
-        }
-        virtual std::string connect(const std::string& password, const std::string& uri) = 0;
-        virtual std::string hostGetVersion(const std::string& connID) = 0;
-        virtual Json::Value getAllVirtualMachines(const std::string& connID) = 0;
+  inline virtual void connectI(const Json::Value &request,
+                               Json::Value &response) {
+    response = this->connect(request["password"].asString(),
+                             request["uri"].asString());
+  }
+  inline virtual void hostGetVersionI(const Json::Value &request,
+                                      Json::Value &response) {
+    response = this->hostGetVersion(request["connID"].asString());
+  }
+  inline virtual void getAllVirtualMachinesI(const Json::Value &request,
+                                             Json::Value &response) {
+    response = this->getAllVirtualMachines(request["connID"].asString());
+  }
+  virtual std::string connect(const std::string &password,
+                              const std::string &uri) = 0;
+  virtual std::string hostGetVersion(const std::string &connID) = 0;
+  virtual Json::Value getAllVirtualMachines(const std::string &connID) = 0;
 };
 
-#endif //JSONRPC_CPP_STUB_ABSTRACTSTUBSERVER_H_
+#endif // JSONRPC_CPP_STUB_ABSTRACTSTUBSERVER_H_
