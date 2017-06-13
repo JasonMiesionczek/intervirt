@@ -51,6 +51,8 @@ void CommandManager::runCommand(std::string cmd) {
 
   auto splitCmd = split(cmd, ' ');
 
+  if (splitCmd.size() == 0) return;
+
   if (splitCmd[0] == "help") {
     this->showHelp();
     return;
